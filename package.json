@@ -9,10 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@t3-oss/env-nextjs": "^0.13.8",
     "next": "16.0.4",
     "pocketbase": "^0.26.3",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

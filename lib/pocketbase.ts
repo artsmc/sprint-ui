@@ -1,5 +1,6 @@
 import PocketBase from 'pocketbase';
+import { env } from '@/env';
 
-const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL || 'http://localhost:8090');
+const pb = new PocketBase(env.NEXT_PUBLIC_POCKETBASE_URL);
 
 export default pb;
