@@ -12,9 +12,11 @@
     "@subframe/core": "^1.148.0",
     "@t3-oss/env-nextjs": "^0.13.8",
     "next": "16.0.4",
+    "next-swagger-doc": "^0.4.1",
     "pocketbase": "^0.26.3",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "swagger-ui-react": "^5.30.3",
     "zod": "^4.1.13"
   },
   "devDependencies": {
@@ -22,6 +24,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/swagger-ui-react": "^5.18.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.4",
     "tailwindcss": "^4",
