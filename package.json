@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@subframe/core": "^1.148.0",
     "@t3-oss/env-nextjs": "^0.13.8",
     "next": "16.0.4",
     "pocketbase": "^0.26.3",

@@ -7,6 +7,7 @@
 - **React 19.2.0** - UI library
 - **Tailwind CSS 4** - Utility-first CSS framework
 - **TypeScript 5** - Type-safe JavaScript
+- **Subframe** - UI component library (project: SprintUI)
 
 ### Backend
 - **PocketBase** - Backend as a service (BaaS)
@@ -52,10 +53,13 @@ npm start
 ```
 sprint-ui/
 ├── app/                  # Next.js App Router pages
+│   ├── ui/               # Subframe UI components
 │   ├── layout.tsx
 │   └── page.tsx
 ├── lib/                  # Shared utilities
 │   └── pocketbase.ts     # PocketBase client
+├── .subframe/            # Subframe CLI config
+│   └── sync.json
 ├── memory-bank/          # Project documentation
 ├── env.ts                # T3 Env configuration
 ├── Dockerfile

@@ -2,13 +2,25 @@
 
 ## Project Overview & Business Context
 
-**Sprint UI** is a modern web application built with Next.js and PocketBase. The project aims to provide a fast, type-safe, and easily deployable web application infrastructure.
+**Sprint UI** is a biweekly design challenge platform where design teams practice UI skills through structured prompts, peer voting, and anonymous feedback. Built with Next.js 16 and PocketBase.
 
 ### Business Goals
-- Rapid development with modern tooling
-- Type-safe codebase reducing runtime errors
-- Easy deployment via Docker containers
-- Scalable backend via PocketBase
+- Facilitate designer skill development through structured challenges
+- Enable peer feedback without attribution bias (anonymous during voting)
+- Provide 100 pre-defined UI challenge prompts
+- Support biweekly sprint cadence with submission deadlines
+
+### Core Features
+1. **Sprint Management** - Biweekly design challenges with prompts
+2. **Design Submission** - Upload designs with designer attribution
+3. **Anonymous Voting** - Vote on peer submissions without bias
+4. **Anonymous Feedback** - Provide constructive feedback privately
+5. **Leaderboard** - Track challenge results
+
+### Target Users
+- Design teams participating in skill-building challenges
+- Individual designers seeking structured practice
+- Team leads managing design sprint programs
 
 ---
 
@@ -100,3 +112,4 @@ flowchart TD
 | Environment Config | `env.ts` | T3 Env pattern |
 | Containerization | `Dockerfile` | Docker |
 | Orchestration | `docker-compose.yml` | Docker Compose |
+| AI Context | `CLAUDE.md` | Claude Code guidance |

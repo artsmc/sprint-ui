@@ -2,7 +2,7 @@
 
 ## Overview
 
-Sprint UI is a Next.js web application that uses PocketBase as its backend database and authentication system. The project is containerized with Docker for deployment.
+Sprint UI is a biweekly design challenge platform where design teams practice UI skills through structured prompts, peer voting, and anonymous feedback. Built with Next.js 16 and PocketBase.
 
 ## Core Requirements
 
@@ -10,20 +10,25 @@ Sprint UI is a Next.js web application that uses PocketBase as its backend datab
 - PocketBase integration for backend services
 - Docker containerization for deployment
 - Type-safe environment variable handling
+- Design submission and voting workflow
+- Anonymous feedback system
 
 ## Goals
 
+- Facilitate designer skill development through structured challenges
+- Enable peer feedback without attribution bias
 - Build a performant, modern web application
 - Maintain clean, type-safe code
-- Enable easy local development and production deployment
 
 ## Scope
 
 - Frontend: Next.js with React 19, Tailwind CSS 4
-- Backend: PocketBase (external service)
+- Backend: PocketBase (database, auth, file storage)
 - Infrastructure: Docker, Docker Compose
+- Challenge prompts: 100 pre-defined UI challenges
 
 ## Constraints
 
 - Must work in containerized environments
 - Environment variables must be validated at build/runtime
+- Feedback must be anonymous during voting period

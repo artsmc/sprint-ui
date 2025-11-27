@@ -56,16 +56,65 @@ sequenceDiagram
 
 ## Database Schema
 
-*PocketBase collections to be defined as features are built.*
+*PocketBase collections for the design challenge platform:*
 
 ```mermaid
 erDiagram
+    USERS ||--o{ SUBMISSIONS : creates
+    USERS ||--o{ VOTES : casts
+    USERS ||--o{ FEEDBACK : writes
+    SPRINTS ||--o{ SUBMISSIONS : contains
+    SPRINTS }|--|| CHALLENGES : uses
+    SUBMISSIONS ||--o{ VOTES : receives
+    SUBMISSIONS ||--o{ FEEDBACK : receives
+
     USERS {
         string id PK
         string email
         string name
+        string avatar
         datetime created
         datetime updated
+    }
+
+    CHALLENGES {
+        int id PK
+        string prompt
+        string details
+    }
+
+    SPRINTS {
+        string id PK
+        int challenge_id FK
+        datetime start_date
+        datetime submission_deadline
+        datetime voting_deadline
+        string status
+    }
+
+    SUBMISSIONS {
+        string id PK
+        string sprint_id FK
+        string user_id FK
+        string design_url
+        string designer_name
+        datetime created
+    }
+
+    VOTES {
+        string id PK
+        string submission_id FK
+        string voter_id FK
+        int score
+        datetime created
+    }
+
+    FEEDBACK {
+        string id PK
+        string submission_id FK
+        string author_id FK
+        string content
+        datetime created
     }
 ```
 
@@ -78,12 +127,14 @@ sprint-ui/
 │   └── page.tsx            # Home page
 ├── lib/                    # Shared utilities
 │   └── pocketbase.ts       # PocketBase singleton client
-├── memory-bank/            # Documentation Hub
+├── cline-docs/             # Architecture Documentation Hub
 │   ├── systemArchitecture.md
 │   ├── keyPairResponsibility.md
 │   ├── glossary.md
 │   └── techStack.md
+├── memory-bank/            # Project Progress & Context
 ├── env.ts                  # T3 Env configuration
+├── CLAUDE.md               # AI assistant guidance
 ├── Dockerfile              # Container definition
 └── docker-compose.yml      # Multi-container setup
 ```

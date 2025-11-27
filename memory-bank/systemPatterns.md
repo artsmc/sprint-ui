@@ -61,6 +61,31 @@ Using `@/` alias for clean imports (configured in `tsconfig.json`):
 - `@/env` → `./env.ts`
 - `@/lib/*` → `./lib/*`
 - `@/app/*` → `./app/*`
+- `@/ui/*` → `./app/ui/*` (Subframe components)
+
+### Subframe UI Components
+
+Subframe provides pre-built, customizable UI components synced via CLI:
+
+```bash
+# Sync all components from Subframe project
+npx @subframe/cli@latest sync --all -p d54d6bb0b72d
+```
+
+**Configuration** (`.subframe/sync.json`):
+```json
+{
+  "directory": "./app/ui",
+  "importAlias": "@/ui/*",
+  "projectId": "d54d6bb0b72d",
+  "cssType": "tailwind-v4"
+}
+```
+
+**Usage pattern:**
+```typescript
+import { Button } from "@/ui/components/Button";
+```
 
 ## Design Decisions
 
@@ -77,3 +102,16 @@ Using `@/` alias for clean imports (configured in `tsconfig.json`):
 ## Data Flow Patterns
 
 *To be defined as features are implemented*
+
+## Proposed Data Model
+
+*PocketBase collections to be implemented:*
+
+| Collection | Purpose |
+|------------|---------|
+| users | Designer profiles (PocketBase auth) |
+| sprints | Challenge periods with prompt reference |
+| challenges | 100 UI prompts (seeded data) |
+| submissions | Design uploads linked to sprint + user |
+| votes | User votes on submissions |
+| feedback | Anonymous text feedback on submissions |

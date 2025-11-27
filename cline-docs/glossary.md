@@ -2,6 +2,20 @@
 
 ## Domain-Specific Terms
 
+### Design Challenge Platform Terms
+
+| Term | Definition | Context |
+|------|------------|---------|
+| **Sprint** | A biweekly challenge period with submission and voting phases | Core unit of the challenge cycle |
+| **Challenge/Prompt** | A UI design task (e.g., "Sign Up", "Credit Card Checkout") | 100 pre-defined prompts available |
+| **Submission** | A designer's uploaded design for a sprint challenge | Linked to user and sprint |
+| **Vote** | A numeric score given to a peer's submission | Anonymous during voting period |
+| **Feedback** | Text critique provided on a submission | Anonymous to reduce bias |
+| **Leaderboard** | Ranking of designers based on votes received | Displayed after voting ends |
+| **Designer Attribution** | The name attached to a submission | Visible after voting period |
+
+---
+
 ### Application Terms
 
 | Term | Definition | Context |
