@@ -11,13 +11,16 @@
   "dependencies": {
     "@subframe/core": "^1.148.0",
     "@t3-oss/env-nextjs": "^0.13.8",
+    "@tanstack/react-query": "^5.90.11",
+    "@tanstack/react-query-devtools": "^5.91.1",
     "next": "16.0.4",
     "next-swagger-doc": "^0.4.1",
     "pocketbase": "^0.26.3",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "swagger-ui-react": "^5.30.3",
-    "zod": "^4.1.13"
+    "zod": "^4.1.13",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
