@@ -13,31 +13,46 @@
 - [x] CLAUDE.md for AI assistant guidance
 - [x] cline-docs/ architecture documentation
 
-### Backend (PocketBase)
+### Backend (PocketBase) - COMPLETE
 - [x] PocketBase client setup (`lib/pocketbase.ts`)
 - [x] 19 database collections created
 - [x] API rules configured (auth, owner-only, admin-only, phase-based)
 - [x] Seed data: 100 challenges, 20 skills, 15 badges
+- [x] Schema exported to `pb_schema.json`
 
-### TypeScript
-- [x] Type definitions for all 19 collections (`lib/types/`)
-- [x] Expanded types for PocketBase relations
-- [x] Barrel exports for clean imports
+### TypeScript Types - COMPLETE
+- [x] Type definitions for all 19 collections (`lib/types/pocketbase.ts`)
+- [x] Expanded types for PocketBase relations (`lib/types/expanded.ts`)
+- [x] Barrel exports for clean imports (`lib/types/index.ts`)
+
+### API Service Layer - COMPLETE
+- [x] Auth service (`lib/api/auth.ts`) - register, login, logout, session management
+- [x] Challenge service (`lib/api/challenges.ts`) - CRUD, search, lifecycle
+- [x] Sprint service (`lib/api/sprints.ts`) - CRUD, status transitions, lifecycle
+- [x] Participant service (`lib/api/participants.ts`) - join/leave sprints
+- [x] Submission service (`lib/api/submissions.ts`) - CRUD, submit workflow
+- [x] Asset service (`lib/api/assets.ts`) - file upload/download
+- [x] Vote service (`lib/api/votes.ts`) - voting, statistics aggregation
+- [x] Feedback service (`lib/api/feedback.ts`) - CRUD, helpful marks
+- [x] Skills service (`lib/api/skills.ts`) - skill tagging, progress tracking
+- [x] XP service (`lib/api/xp.ts`) - XP events, leaderboards
+- [x] Badge service (`lib/api/badges.ts`) - badge awards, user badges
+- [x] Retrospective service (`lib/api/retrospectives.ts`) - retro summaries, awards
+- [x] Realtime service (`lib/api/realtime.ts`) - subscriptions for votes/feedback/submissions
+- [x] Filter utilities (`lib/utils/filter.ts`) - sanitized PocketBase queries
 
 ### UI Components
 - [x] Subframe UI component library (SprintUI project)
 
 ## What's Left to Build
 
-### API Services
-- [ ] Auth service (login, register, session management)
-- [ ] Sprint service (CRUD, lifecycle management)
-- [ ] Submission service (create, update, submit)
-- [ ] Vote service (create, aggregate stats)
-- [ ] Feedback service (CRUD, helpful marks)
-- [ ] XP & Badge services (gamification)
+### Next.js Application Layer (Pending Architecture Decisions)
+- [ ] Auth strategy decision (PocketBase native vs NextAuth vs other)
+- [ ] Route layer patterns (App Router conventions, middleware)
+- [ ] State management approach (React Context vs Zustand vs other)
+- [ ] Server/Client component boundaries
 
-### Frontend Features
+### Frontend Features (Pending Spec)
 - [ ] Authentication flow (login/register pages)
 - [ ] Sprint dashboard (current challenge, countdown)
 - [ ] Design submission interface
@@ -46,7 +61,7 @@
 - [ ] Leaderboard/results view
 - [ ] User profile (badges, XP, skill progress)
 
-### Admin
+### Admin (Pending Spec)
 - [ ] Sprint management (create, activate, close)
 - [ ] Challenge management
 
@@ -57,13 +72,27 @@
 
 ## Current Status
 
-**Status:** Backend Ready → Building API Layer
+**Status:** Database Layer Complete | Awaiting Application Architecture Spec
 
-The database schema is complete with all collections, rules, and seed data. TypeScript types are ready. Next step is implementing API service modules.
+The complete data layer is ready:
+- 19 PocketBase collections with full API rules
+- 14 API service modules (~3,500 SLOC) in `lib/api/`
+- Type-safe TypeScript interfaces for all collections
+- Filter sanitization utilities for secure queries
+- Pagination support for analytics functions
+
+**Next milestone:** Define Next.js application architecture (auth strategy, routing patterns, state management) before building frontend features.
 
 ## Changelog
 
-### 2025-11-27
+### 2025-11-27 (Session 2)
+- Completed all 14 API service modules in `lib/api/`
+- Added filter sanitization utility (`lib/utils/filter.ts`)
+- Added pagination to analytics functions (leaderboards, top skills)
+- Committed: `ba5465a` - filter sanitization and pagination improvements
+- Committed: `c7f83b2` - Phase 4 API services complete
+
+### 2025-11-27 (Session 1)
 - Created 19 PocketBase collections with API rules
 - Loaded seed data: 100 challenges, 20 skills, 15 badges
 - Created TypeScript types in `lib/types/`

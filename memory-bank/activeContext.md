@@ -2,50 +2,95 @@
 
 ## Current Focus
 
-Database schema complete with seed data and TypeScript types. Ready for API service development.
+**Database layer complete.** Awaiting architecture decisions for Next.js application integration (auth strategy, routing patterns, state management).
 
-## Recent Changes
+## Completed Work
 
-### Session: 2025-11-27
+### PocketBase Schema Feature - COMPLETE
 
-1. **PocketBase Schema Complete**
-   - All 19 collections created and configured
-   - API rules implemented per security requirements
-   - Schema exported to `pb_schema.json`
+**Phase 0-4 of pocketbase-schema feature completed:**
 
-2. **Seed Data Loaded**
-   - 100 design challenges loaded
-   - 20 design skills loaded
-   - 15 achievement badges loaded
+1. **Schema (19 Collections)**
+   - Core: users, challenges, sprints
+   - Participation: sprint_participants
+   - Submissions: submissions, submission_assets
+   - Skills: skills, submission_skill_tags, user_skill_progress
+   - Voting/Feedback: votes, feedback, feedback_helpful_marks
+   - Gamification: xp_events, user_sprint_tasks, badges, user_badges
+   - Retrospectives: sprint_retro_summaries, sprint_retro_resources, sprint_awards
 
-3. **TypeScript Types Created**
-   - Base types for all 19 collections (`lib/types/pocketbase.ts`)
-   - Expanded types for relations (`lib/types/expanded.ts`)
-   - Barrel export (`lib/types/index.ts`)
+2. **Seed Data**
+   - 100 design challenges
+   - 20 design skills (4 categories)
+   - 15 achievement badges
 
-### Previous Sessions
+3. **TypeScript Types** (`lib/types/`)
+   - Base interfaces for all 19 collections
+   - Expanded types for relation queries
+   - Union types for enums (SprintStatus, UserRole, etc.)
 
-- Subframe UI component library integrated (`@/ui/*`)
-- T3 Env for type-safe environment variables
-- Memory Bank and cline-docs documentation
+4. **API Services** (`lib/api/`)
+   - 14 service modules with full CRUD operations
+   - Filter sanitization for secure queries
+   - Pagination for analytics/leaderboard functions
+   - Realtime subscription helpers
 
-## Active Decisions
+## Architecture Decisions Needed
 
-- Type-safe development: All PocketBase collections have TypeScript interfaces
-- Modular API layer: Services in `lib/api/` will use types from `lib/types/`
-- Sprint lifecycle: scheduled → active → voting → retro → completed
-- Anonymous feedback: author_id hidden when is_anonymous=true
+Before building frontend features, these decisions are pending:
+
+| Decision | Options | Notes |
+|----------|---------|-------|
+| **Auth Strategy** | PocketBase native, NextAuth, Clerk | PocketBase has built-in auth; services already use it |
+| **Route Patterns** | App Router conventions | Middleware for protected routes? |
+| **State Management** | React Context, Zustand, Jotai | For auth state, UI state |
+| **Server/Client Boundary** | Server Components default | Which components need "use client"? |
+| **Data Fetching** | Server actions, client-side, hybrid | API services work both ways |
+
+## Available APIs
+
+All services in `lib/api/` are ready to use:
+
+```typescript
+// Authentication
+import { login, register, logout, getCurrentUser, isAdmin } from '@/lib/api';
+
+// Sprints & Challenges
+import { getActiveSprint, getChallenge, joinSprint } from '@/lib/api';
+
+// Submissions
+import { createSubmission, submitDesign, uploadAsset } from '@/lib/api';
+
+// Voting & Feedback
+import { createVote, getVoteStats, createFeedback, markFeedbackHelpful } from '@/lib/api';
+
+// Gamification
+import { getUserXPTotal, getXPLeaderboard, getUserBadges } from '@/lib/api';
+
+// Realtime
+import { subscribeToVotes, subscribeToFeedback } from '@/lib/api';
+```
 
 ## Next Steps
 
-1. Create API service modules (`lib/api/`)
-2. Implement authentication flow
-3. Build sprint dashboard UI
-4. Create submission workflow
+1. **Spec out Next.js application architecture**
+   - Auth strategy and session handling
+   - Route structure and protected routes
+   - Component patterns (Server vs Client)
+
+2. **Build authentication flow first**
+   - Login/register pages
+   - Auth context/provider
+   - Protected route wrappers
+
+3. **Then build core user flows**
+   - Sprint dashboard
+   - Submission workflow
+   - Voting interface
 
 ## Working Notes
 
-- PocketBase running on port 8090
-- 19 collections with full API rules
-- XP system: 6 event types for gamification
-- Voting: 4 rating categories (clarity, usability, visual_craft, originality)
+- PocketBase MCP available for direct collection queries
+- API services use filter sanitization (`lib/utils/filter.ts`)
+- All services handle pagination for large datasets
+- Realtime subscriptions ready for live updates
