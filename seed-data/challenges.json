@@ -1,0 +1,502 @@
+[
+  {
+    "challenge_number": 1,
+    "title": "Sign Up",
+    "brief": "<p>Design a UI for the Sign Up experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Form field validation, password requirements, social sign-up options, and progressive disclosure of information.</p>"
+  },
+  {
+    "challenge_number": 2,
+    "title": "Credit Card Checkout",
+    "brief": "<p>Design a UI for the Credit Card Checkout experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Security indicators, card type detection, inline validation, and mobile-friendly input methods.</p>"
+  },
+  {
+    "challenge_number": 3,
+    "title": "Landing Page (above the fold)",
+    "brief": "<p>Design a UI for the Landing Page (above the fold) experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Value proposition clarity, call-to-action prominence, hero imagery, and scroll encouragement.</p>"
+  },
+  {
+    "challenge_number": 4,
+    "title": "Calculator",
+    "brief": "<p>Design a UI for the Calculator experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Button size and spacing, display readability, operation feedback, and history functionality.</p>"
+  },
+  {
+    "challenge_number": 5,
+    "title": "App Icon",
+    "brief": "<p>Design a UI for the App Icon experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Recognizability at small sizes, brand consistency, platform guidelines, and visual simplicity.</p>"
+  },
+  {
+    "challenge_number": 6,
+    "title": "User Profile",
+    "brief": "<p>Design a UI for the User Profile experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Information hierarchy, edit functionality, avatar display, and activity summary.</p>"
+  },
+  {
+    "challenge_number": 7,
+    "title": "Settings",
+    "brief": "<p>Design a UI for the Settings experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Categorization, search functionality, toggle states, and confirmation for destructive actions.</p>"
+  },
+  {
+    "challenge_number": 8,
+    "title": "404 Page",
+    "brief": "<p>Design a UI for the 404 Page experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Friendly messaging, navigation options, search functionality, and brand personality.</p>"
+  },
+  {
+    "challenge_number": 9,
+    "title": "Music Player",
+    "brief": "<p>Design a UI for the Music Player experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Playback controls, progress indication, album art display, and queue management.</p>"
+  },
+  {
+    "challenge_number": 10,
+    "title": "Social Share",
+    "brief": "<p>Design a UI for the Social Share experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Platform options, preview functionality, custom messaging, and share confirmation.</p>"
+  },
+  {
+    "challenge_number": 11,
+    "title": "Flash Message",
+    "brief": "<p>Design a UI for the Flash Message experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Message types (success, error, warning), dismissal options, positioning, and animation.</p>"
+  },
+  {
+    "challenge_number": 12,
+    "title": "E-commerce Shop (Single Item)",
+    "brief": "<p>Design a UI for the E-commerce Shop (Single Item) experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Product imagery, pricing display, variant selection, and add-to-cart flow.</p>"
+  },
+  {
+    "challenge_number": 13,
+    "title": "Direct Messaging",
+    "brief": "<p>Design a UI for the Direct Messaging experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Message bubbles, timestamps, read receipts, and typing indicators.</p>"
+  },
+  {
+    "challenge_number": 14,
+    "title": "Countdown Timer",
+    "brief": "<p>Design a UI for the Countdown Timer experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Time unit clarity, urgency indication, completion state, and visual hierarchy.</p>"
+  },
+  {
+    "challenge_number": 15,
+    "title": "On/Off Switch",
+    "brief": "<p>Design a UI for the On/Off Switch experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> State clarity, touch target size, animation feedback, and accessibility labels.</p>"
+  },
+  {
+    "challenge_number": 16,
+    "title": "Pop-Up / Overlay",
+    "brief": "<p>Design a UI for the Pop-Up / Overlay experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Dismissal options, focus management, background dimming, and mobile responsiveness.</p>"
+  },
+  {
+    "challenge_number": 17,
+    "title": "Email Receipt",
+    "brief": "<p>Design a UI for the Email Receipt experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Order summary, tracking information, support links, and email client compatibility.</p>"
+  },
+  {
+    "challenge_number": 18,
+    "title": "Analytics Chart",
+    "brief": "<p>Design a UI for the Analytics Chart experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Data visualization clarity, interactive tooltips, time range selection, and export options.</p>"
+  },
+  {
+    "challenge_number": 19,
+    "title": "Leaderboard",
+    "brief": "<p>Design a UI for the Leaderboard experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Rank display, score differentiation, user highlighting, and pagination.</p>"
+  },
+  {
+    "challenge_number": 20,
+    "title": "Location Tracker",
+    "brief": "<p>Design a UI for the Location Tracker experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Map integration, real-time updates, history display, and privacy controls.</p>"
+  },
+  {
+    "challenge_number": 21,
+    "title": "Home Monitoring Dashboard",
+    "brief": "<p>Design a UI for the Home Monitoring Dashboard experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Device status overview, quick actions, alerts, and room-based organization.</p>"
+  },
+  {
+    "challenge_number": 22,
+    "title": "Search",
+    "brief": "<p>Design a UI for the Search experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Auto-suggestions, filters, recent searches, and result presentation.</p>"
+  },
+  {
+    "challenge_number": 23,
+    "title": "Onboarding",
+    "brief": "<p>Design a UI for the Onboarding experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Step progression, skip options, value communication, and personalization.</p>"
+  },
+  {
+    "challenge_number": 24,
+    "title": "Boarding Pass",
+    "brief": "<p>Design a UI for the Boarding Pass experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Essential information hierarchy, QR code placement, offline accessibility, and branding.</p>"
+  },
+  {
+    "challenge_number": 25,
+    "title": "TV App",
+    "brief": "<p>Design a UI for the TV App experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Remote navigation, 10-foot UI principles, content discovery, and focus states.</p>"
+  },
+  {
+    "challenge_number": 26,
+    "title": "Subscribe",
+    "brief": "<p>Design a UI for the Subscribe experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Value proposition, email input, privacy assurance, and confirmation feedback.</p>"
+  },
+  {
+    "challenge_number": 27,
+    "title": "Dropdown",
+    "brief": "<p>Design a UI for the Dropdown experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Option organization, search functionality, multi-select handling, and keyboard navigation.</p>"
+  },
+  {
+    "challenge_number": 28,
+    "title": "Contact Us",
+    "brief": "<p>Design a UI for the Contact Us experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Contact method options, form fields, response time expectations, and alternative resources.</p>"
+  },
+  {
+    "challenge_number": 29,
+    "title": "Map",
+    "brief": "<p>Design a UI for the Map experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Zoom controls, location markers, search integration, and layer options.</p>"
+  },
+  {
+    "challenge_number": 30,
+    "title": "Pricing",
+    "brief": "<p>Design a UI for the Pricing experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Plan comparison, feature highlighting, recommended plan indication, and billing cycle toggle.</p>"
+  },
+  {
+    "challenge_number": 31,
+    "title": "File Upload",
+    "brief": "<p>Design a UI for the File Upload experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Drag and drop, progress indication, file type restrictions, and error handling.</p>"
+  },
+  {
+    "challenge_number": 32,
+    "title": "Crowdfunding Campaign",
+    "brief": "<p>Design a UI for the Crowdfunding Campaign experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Progress visualization, backer count, reward tiers, and social proof.</p>"
+  },
+  {
+    "challenge_number": 33,
+    "title": "Customize Product",
+    "brief": "<p>Design a UI for the Customize Product experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Option visualization, real-time preview, price updates, and save/share functionality.</p>"
+  },
+  {
+    "challenge_number": 34,
+    "title": "Car Interface",
+    "brief": "<p>Design a UI for the Car Interface experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Driver safety, glanceability, touch target size, and day/night modes.</p>"
+  },
+  {
+    "challenge_number": 35,
+    "title": "Blog Post",
+    "brief": "<p>Design a UI for the Blog Post experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Reading experience, typography, author attribution, and related content.</p>"
+  },
+  {
+    "challenge_number": 36,
+    "title": "Special Offer",
+    "brief": "<p>Design a UI for the Special Offer experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Urgency communication, discount clarity, terms visibility, and call-to-action prominence.</p>"
+  },
+  {
+    "challenge_number": 37,
+    "title": "Weather",
+    "brief": "<p>Design a UI for the Weather experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Current conditions, forecast display, location switching, and visual weather representation.</p>"
+  },
+  {
+    "challenge_number": 38,
+    "title": "Calendar",
+    "brief": "<p>Design a UI for the Calendar experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> View options, event creation, navigation, and event density handling.</p>"
+  },
+  {
+    "challenge_number": 39,
+    "title": "Testimonials",
+    "brief": "<p>Design a UI for the Testimonials experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Credibility indicators, quote presentation, author details, and carousel navigation.</p>"
+  },
+  {
+    "challenge_number": 40,
+    "title": "Dribbble Invite",
+    "brief": "<p>Design a UI for the Dribbble Invite experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Community value proposition, invitation process, designer portfolio showcase, and excitement generation.</p>"
+  },
+  {
+    "challenge_number": 41,
+    "title": "Workout Tracker",
+    "brief": "<p>Design a UI for the Workout Tracker experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Exercise logging, progress visualization, goal tracking, and workout history.</p>"
+  },
+  {
+    "challenge_number": 42,
+    "title": "To-do List",
+    "brief": "<p>Design a UI for the To-do List experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Task creation, completion states, prioritization, and organization options.</p>"
+  },
+  {
+    "challenge_number": 43,
+    "title": "Food/Drink Menu",
+    "brief": "<p>Design a UI for the Food/Drink Menu experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Category organization, item details, dietary information, and pricing display.</p>"
+  },
+  {
+    "challenge_number": 44,
+    "title": "Favorites",
+    "brief": "<p>Design a UI for the Favorites experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Collection organization, quick access, removal options, and empty state.</p>"
+  },
+  {
+    "challenge_number": 45,
+    "title": "Info Card",
+    "brief": "<p>Design a UI for the Info Card experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Information density, visual hierarchy, interaction states, and responsive behavior.</p>"
+  },
+  {
+    "challenge_number": 46,
+    "title": "Invoice",
+    "brief": "<p>Design a UI for the Invoice experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Line item clarity, totals calculation, payment options, and print/download functionality.</p>"
+  },
+  {
+    "challenge_number": 47,
+    "title": "Activity Feed",
+    "brief": "<p>Design a UI for the Activity Feed experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Event types differentiation, timestamp display, filtering, and real-time updates.</p>"
+  },
+  {
+    "challenge_number": 48,
+    "title": "Coming Soon",
+    "brief": "<p>Design a UI for the Coming Soon experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Anticipation building, email capture, launch date display, and social following.</p>"
+  },
+  {
+    "challenge_number": 49,
+    "title": "Notifications",
+    "brief": "<p>Design a UI for the Notifications experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Notification types, read/unread states, actions, and management options.</p>"
+  },
+  {
+    "challenge_number": 50,
+    "title": "Job Listing",
+    "brief": "<p>Design a UI for the Job Listing experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Key details display, application process, company information, and save functionality.</p>"
+  },
+  {
+    "challenge_number": 51,
+    "title": "Press Page",
+    "brief": "<p>Design a UI for the Press Page experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Media kit access, press release organization, contact information, and brand assets.</p>"
+  },
+  {
+    "challenge_number": 52,
+    "title": "Daily UI Logo",
+    "brief": "<p>Design a UI for the Daily UI Logo experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Brand representation, scalability, color variations, and usage context.</p>"
+  },
+  {
+    "challenge_number": 53,
+    "title": "Header Navigation",
+    "brief": "<p>Design a UI for the Header Navigation experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Menu organization, mobile responsiveness, active states, and user actions.</p>"
+  },
+  {
+    "challenge_number": 54,
+    "title": "Confirm Reservation",
+    "brief": "<p>Design a UI for the Confirm Reservation experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Booking details summary, modification options, confirmation actions, and calendar integration.</p>"
+  },
+  {
+    "challenge_number": 55,
+    "title": "Icon Set",
+    "brief": "<p>Design a UI for the Icon Set experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Visual consistency, size variants, style coherence, and use case coverage.</p>"
+  },
+  {
+    "challenge_number": 56,
+    "title": "Breadcrumbs",
+    "brief": "<p>Design a UI for the Breadcrumbs experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Hierarchy indication, truncation handling, click targets, and mobile adaptation.</p>"
+  },
+  {
+    "challenge_number": 57,
+    "title": "Video Player",
+    "brief": "<p>Design a UI for the Video Player experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Control visibility, progress scrubbing, quality options, and fullscreen mode.</p>"
+  },
+  {
+    "challenge_number": 58,
+    "title": "Shopping Cart",
+    "brief": "<p>Design a UI for the Shopping Cart experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Item management, quantity adjustment, price totals, and checkout progression.</p>"
+  },
+  {
+    "challenge_number": 59,
+    "title": "Background Pattern",
+    "brief": "<p>Design a UI for the Background Pattern experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Seamless tiling, visual interest without distraction, color harmony, and content contrast.</p>"
+  },
+  {
+    "challenge_number": 60,
+    "title": "Color Picker",
+    "brief": "<p>Design a UI for the Color Picker experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Selection precision, format options, saved colors, and accessibility contrast checking.</p>"
+  },
+  {
+    "challenge_number": 61,
+    "title": "Redeem Coupon",
+    "brief": "<p>Design a UI for the Redeem Coupon experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Code input, validation feedback, discount preview, and terms display.</p>"
+  },
+  {
+    "challenge_number": 62,
+    "title": "Workout of the Day",
+    "brief": "<p>Design a UI for the Workout of the Day experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Exercise details, timer integration, difficulty indication, and completion tracking.</p>"
+  },
+  {
+    "challenge_number": 63,
+    "title": "Best of 2015",
+    "brief": "<p>Design a UI for the Best of 2015 experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Category organization, winner highlighting, browsing experience, and sharing options.</p>"
+  },
+  {
+    "challenge_number": 64,
+    "title": "Select User Type",
+    "brief": "<p>Design a UI for the Select User Type experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Option differentiation, selection feedback, benefit communication, and progression clarity.</p>"
+  },
+  {
+    "challenge_number": 65,
+    "title": "Notes Widget",
+    "brief": "<p>Design a UI for the Notes Widget experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Quick capture, organization, search, and sync status.</p>"
+  },
+  {
+    "challenge_number": 66,
+    "title": "Statistics",
+    "brief": "<p>Design a UI for the Statistics experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Key metrics display, trend indication, comparison options, and data freshness.</p>"
+  },
+  {
+    "challenge_number": 67,
+    "title": "Hotel Booking",
+    "brief": "<p>Design a UI for the Hotel Booking experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Room selection, amenity display, pricing breakdown, and date flexibility.</p>"
+  },
+  {
+    "challenge_number": 68,
+    "title": "Flight Search",
+    "brief": "<p>Design a UI for the Flight Search experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Input fields, flexible dates, filter options, and result sorting.</p>"
+  },
+  {
+    "challenge_number": 69,
+    "title": "Trending",
+    "brief": "<p>Design a UI for the Trending experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Content ranking, category filtering, time period selection, and engagement metrics.</p>"
+  },
+  {
+    "challenge_number": 70,
+    "title": "Event Listing",
+    "brief": "<p>Design a UI for the Event Listing experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Date/time display, location information, ticket availability, and RSVP options.</p>"
+  },
+  {
+    "challenge_number": 71,
+    "title": "Schedule",
+    "brief": "<p>Design a UI for the Schedule experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Time slot display, conflict indication, editing capability, and view options.</p>"
+  },
+  {
+    "challenge_number": 72,
+    "title": "Image Slider",
+    "brief": "<p>Design a UI for the Image Slider experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Navigation controls, indicator dots, touch gestures, and auto-play options.</p>"
+  },
+  {
+    "challenge_number": 73,
+    "title": "Virtual Reality",
+    "brief": "<p>Design a UI for the Virtual Reality experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Spatial UI, gaze interaction, comfort zones, and motion considerations.</p>"
+  },
+  {
+    "challenge_number": 74,
+    "title": "Download App",
+    "brief": "<p>Design a UI for the Download App experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Platform options, QR code, app preview, and store badges.</p>"
+  },
+  {
+    "challenge_number": 75,
+    "title": "Pre-Order",
+    "brief": "<p>Design a UI for the Pre-Order experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Release date, payment handling, cancellation policy, and exclusivity messaging.</p>"
+  },
+  {
+    "challenge_number": 76,
+    "title": "Loading",
+    "brief": "<p>Design a UI for the Loading experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Progress indication, engagement during wait, skeleton screens, and time expectations.</p>"
+  },
+  {
+    "challenge_number": 77,
+    "title": "Thank You",
+    "brief": "<p>Design a UI for the Thank You experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Confirmation clarity, next steps, sharing options, and continued engagement.</p>"
+  },
+  {
+    "challenge_number": 78,
+    "title": "Pending Invitation",
+    "brief": "<p>Design a UI for the Pending Invitation experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Invitation details, accept/decline actions, expiration, and sender information.</p>"
+  },
+  {
+    "challenge_number": 79,
+    "title": "Itinerary",
+    "brief": "<p>Design a UI for the Itinerary experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Timeline display, location details, time zones, and offline access.</p>"
+  },
+  {
+    "challenge_number": 80,
+    "title": "Date Picker",
+    "brief": "<p>Design a UI for the Date Picker experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Month navigation, date selection, range picking, and keyboard support.</p>"
+  },
+  {
+    "challenge_number": 81,
+    "title": "Status Update",
+    "brief": "<p>Design a UI for the Status Update experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Character limits, media attachment, privacy options, and post preview.</p>"
+  },
+  {
+    "challenge_number": 82,
+    "title": "Form",
+    "brief": "<p>Design a UI for the Form experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Field grouping, validation feedback, required indicators, and progressive disclosure.</p>"
+  },
+  {
+    "challenge_number": 83,
+    "title": "Button",
+    "brief": "<p>Design a UI for the Button experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> States (default, hover, active, disabled), hierarchy, sizing, and icon integration.</p>"
+  },
+  {
+    "challenge_number": 84,
+    "title": "Badge",
+    "brief": "<p>Design a UI for the Badge experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Status indication, count display, color meaning, and positioning options.</p>"
+  },
+  {
+    "challenge_number": 85,
+    "title": "Pagination",
+    "brief": "<p>Design a UI for the Pagination experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Page numbers, navigation arrows, current page indication, and truncation.</p>"
+  },
+  {
+    "challenge_number": 86,
+    "title": "Progress Bar",
+    "brief": "<p>Design a UI for the Progress Bar experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Percentage display, step indication, color states, and animation.</p>"
+  },
+  {
+    "challenge_number": 87,
+    "title": "Tooltip",
+    "brief": "<p>Design a UI for the Tooltip experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Trigger behavior, positioning, arrow direction, and content length.</p>"
+  },
+  {
+    "challenge_number": 88,
+    "title": "Avatar",
+    "brief": "<p>Design a UI for the Avatar experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Size variants, fallback states, status indicators, and group display.</p>"
+  },
+  {
+    "challenge_number": 89,
+    "title": "Terms of Service",
+    "brief": "<p>Design a UI for the Terms of Service experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Readability, section navigation, acceptance UI, and last updated date.</p>"
+  },
+  {
+    "challenge_number": 90,
+    "title": "Create New",
+    "brief": "<p>Design a UI for the Create New experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Quick actions, template options, recent items, and empty state guidance.</p>"
+  },
+  {
+    "challenge_number": 91,
+    "title": "Curated for You",
+    "brief": "<p>Design a UI for the Curated for You experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Personalization indication, recommendation explanation, feedback options, and diversity.</p>"
+  },
+  {
+    "challenge_number": 92,
+    "title": "F.A.Q.",
+    "brief": "<p>Design a UI for the F.A.Q. experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Question organization, expand/collapse, search functionality, and contact escalation.</p>"
+  },
+  {
+    "challenge_number": 93,
+    "title": "Splash Screen",
+    "brief": "<p>Design a UI for the Splash Screen experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Brand presence, loading indication, duration, and first impression.</p>"
+  },
+  {
+    "challenge_number": 94,
+    "title": "News",
+    "brief": "<p>Design a UI for the News experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Headline hierarchy, category organization, recency indication, and reading time.</p>"
+  },
+  {
+    "challenge_number": 95,
+    "title": "Product Tour",
+    "brief": "<p>Design a UI for the Product Tour experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Step progression, feature highlighting, skip options, and completion reward.</p>"
+  },
+  {
+    "challenge_number": 96,
+    "title": "Currently in-stock",
+    "brief": "<p>Design a UI for the Currently in-stock experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Availability clarity, quantity indication, restock alerts, and urgency messaging.</p>"
+  },
+  {
+    "challenge_number": 97,
+    "title": "Giveaway",
+    "brief": "<p>Design a UI for the Giveaway experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Entry requirements, prize display, winner selection, and terms visibility.</p>"
+  },
+  {
+    "challenge_number": 98,
+    "title": "Advertisement",
+    "brief": "<p>Design a UI for the Advertisement experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Attention capture, call-to-action clarity, brand integration, and dismissal options.</p>"
+  },
+  {
+    "challenge_number": 99,
+    "title": "Categories",
+    "brief": "<p>Design a UI for the Categories experience that makes the task clear, easy to complete, and visually consistent with the rest of the product.</p><p><strong>Consider:</strong> Visual representation, hierarchy display, navigation patterns, and item counts.</p>"
+  },
+  {
+    "challenge_number": 100,
+    "title": "Redesign Daily UI",
+    "brief": "<p>Redesign the Daily UI homepage or overall experience. Decide what you would improve, explore alternative layouts and flows, and share your final concept with the community using #DailyUI.</p><p><strong>Consider:</strong> User journey improvements, visual refresh, feature additions, and community engagement.</p>"
+  }
+]

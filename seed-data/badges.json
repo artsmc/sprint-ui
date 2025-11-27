@@ -1,0 +1,92 @@
+[
+  {
+    "slug": "first-submission",
+    "name": "First Blood",
+    "description": "Completed your first sprint submission. Welcome to the community!",
+    "icon_name": "rocket"
+  },
+  {
+    "slug": "fifth-submission",
+    "name": "Getting Serious",
+    "description": "Completed 5 sprint submissions. You're building momentum!",
+    "icon_name": "flame"
+  },
+  {
+    "slug": "sprint-veteran",
+    "name": "Sprint Veteran",
+    "description": "Completed 10 sprints. A true design warrior!",
+    "icon_name": "medal"
+  },
+  {
+    "slug": "feedback-mvp",
+    "name": "Feedback MVP",
+    "description": "Provided the most helpful feedback in a sprint. Your insights make everyone better.",
+    "icon_name": "star"
+  },
+  {
+    "slug": "top-rated",
+    "name": "Top Rated",
+    "description": "Achieved the highest average vote score in a sprint. Excellence recognized!",
+    "icon_name": "trophy"
+  },
+  {
+    "slug": "consistent-voter",
+    "name": "Consistent Voter",
+    "description": "Voted on every submission in a sprint. Your participation strengthens the community.",
+    "icon_name": "check-circle"
+  },
+  {
+    "slug": "feedback-champion",
+    "name": "Feedback Champion",
+    "description": "Provided 20+ pieces of feedback across sprints. A true mentor to peers.",
+    "icon_name": "message-circle"
+  },
+  {
+    "slug": "typography-master",
+    "name": "Typography Master",
+    "description": "Reached level 5+ in Typography skill. Your type game is strong!",
+    "icon_name": "type"
+  },
+  {
+    "slug": "accessibility-advocate",
+    "name": "Accessibility Advocate",
+    "description": "Reached level 5+ in Accessibility skill. Making design inclusive for all.",
+    "icon_name": "eye"
+  },
+  {
+    "slug": "helpful-peer",
+    "name": "Helpful Peer",
+    "description": "Received 10+ helpful marks on your feedback. Your insights truly resonate.",
+    "icon_name": "thumbs-up"
+  },
+  {
+    "slug": "early-adopter",
+    "name": "Early Adopter",
+    "description": "Joined during the platform's first 6 months. A founding community member!",
+    "icon_name": "zap"
+  },
+  {
+    "slug": "design-system-pro",
+    "name": "Design System Pro",
+    "description": "Reached level 5+ in Design Systems skill. Building consistency at scale.",
+    "icon_name": "layers"
+  },
+  {
+    "slug": "rapid-prototyper",
+    "name": "Rapid Prototyper",
+    "description": "Submitted within the first 48 hours of 5 sprints. Speed and quality combined!",
+    "icon_name": "zap"
+  },
+  {
+    "slug": "perfectionist",
+    "name": "Perfectionist",
+    "description": "Received 5-star ratings in all categories on a submission. Flawless execution!",
+    "icon_name": "award"
+  },
+  {
+    "slug": "well-rounded",
+    "name": "Well Rounded",
+    "description": "Reached level 3+ in all 20 skills. A true design generalist!",
+    "icon_name": "target"
+  }
+]

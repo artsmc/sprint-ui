@@ -1,0 +1,1062 @@
+[
+  {
+    "name": "users",
+    "type": "auth",
+    "schema": [
+      {
+        "name": "name",
+        "type": "text",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 120
+        }
+      },
+      {
+        "name": "avatar",
+        "type": "file",
+        "required": false,
+        "options": {
+          "maxSelect": 1,
+          "maxSize": 5242880,
+          "mimeTypes": ["image/jpeg", "image/png", "image/gif", "image/webp"]
+        }
+      },
+      {
+        "name": "role",
+        "type": "select",
+        "required": true,
+        "options": {
+          "maxSelect": 1,
+          "values": ["designer", "admin"]
+        }
+      }
+    ],
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "",
+    "updateRule": "@request.auth.id = id",
+    "deleteRule": "@request.auth.id = id && @request.auth.role = 'admin'",
+    "options": {
+      "allowEmailAuth": true,
+      "allowOAuth2Auth": true,
+      "allowUsernameAuth": false,
+      "minPasswordLength": 8
+    }
+  },
+  {
+    "name": "challenges",
+    "type": "base",
+    "schema": [
+      {
+        "name": "challenge_number",
+        "type": "number",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 999
+        }
+      },
+      {
+        "name": "title",
+        "type": "text",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 255
+        }
+      },
+      {
+        "name": "brief",
+        "type": "editor",
+        "required": true,
+        "options": {}
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX idx_challenge_number ON challenges (challenge_number)"
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "@request.auth.role = 'admin'",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "sprints",
+    "type": "base",
+    "schema": [
+      {
+        "name": "sprint_number",
+        "type": "number",
+        "required": true,
+        "options": {
+          "min": 1
+        }
+      },
+      {
+        "name": "name",
+        "type": "text",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 255
+        }
+      },
+      {
+        "name": "challenge_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "challenges",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "required": true,
+        "options": {
+          "maxSelect": 1,
+          "values": ["scheduled", "active", "voting", "retro", "completed", "cancelled"]
+        }
+      },
+      {
+        "name": "start_at",
+        "type": "date",
+        "required": false,
+        "options": {}
+      },
+      {
+        "name": "end_at",
+        "type": "date",
+        "required": false,
+        "options": {}
+      },
+      {
+        "name": "voting_end_at",
+        "type": "date",
+        "required": false,
+        "options": {}
+      },
+      {
+        "name": "retro_day",
+        "type": "date",
+        "required": false,
+        "options": {}
+      },
+      {
+        "name": "duration_days",
+        "type": "number",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 60
+        }
+      },
+      {
+        "name": "started_by_id",
+        "type": "relation",
+        "required": false,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "ended_by_id",
+        "type": "relation",
+        "required": false,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX idx_sprint_number ON sprints (sprint_number)"
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "@request.auth.role = 'admin'",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "sprint_participants",
+    "type": "base",
+    "schema": [
+      {
+        "name": "sprint_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "sprints",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "user_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "joined_at",
+        "type": "date",
+        "required": true,
+        "options": {}
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX idx_sprint_user ON sprint_participants (sprint_id, user_id)"
+    ],
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != '' && @request.data.user_id = @request.auth.id",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.id = user_id || @request.auth.role = 'admin'"
+  },
+  {
+    "name": "submissions",
+    "type": "base",
+    "schema": [
+      {
+        "name": "sprint_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "sprints",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "user_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "title",
+        "type": "text",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 255
+        }
+      },
+      {
+        "name": "short_description",
+        "type": "text",
+        "required": false,
+        "options": {
+          "max": 500
+        }
+      },
+      {
+        "name": "main_problem_focused",
+        "type": "editor",
+        "required": false,
+        "options": {}
+      },
+      {
+        "name": "key_constraints",
+        "type": "editor",
+        "required": false,
+        "options": {}
+      },
+      {
+        "name": "figma_url",
+        "type": "url",
+        "required": false,
+        "options": {}
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "required": true,
+        "options": {
+          "maxSelect": 1,
+          "values": ["draft", "submitted"]
+        }
+      },
+      {
+        "name": "submitted_at",
+        "type": "date",
+        "required": false,
+        "options": {}
+      }
+    ],
+    "listRule": "@request.auth.id = user_id || sprint_id.status = 'voting' || sprint_id.status = 'retro' || sprint_id.status = 'completed'",
+    "viewRule": "@request.auth.id = user_id || sprint_id.status = 'voting' || sprint_id.status = 'retro' || sprint_id.status = 'completed'",
+    "createRule": "@request.auth.id != '' && @request.data.user_id = @request.auth.id",
+    "updateRule": "@request.auth.id = user_id && sprint_id.status = 'active'",
+    "deleteRule": "@request.auth.id = user_id && status = 'draft'"
+  },
+  {
+    "name": "submission_assets",
+    "type": "base",
+    "schema": [
+      {
+        "name": "submission_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "submissions",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "asset_type",
+        "type": "select",
+        "required": true,
+        "options": {
+          "maxSelect": 1,
+          "values": ["image", "pdf", "zip"]
+        }
+      },
+      {
+        "name": "file",
+        "type": "file",
+        "required": true,
+        "options": {
+          "maxSelect": 1,
+          "maxSize": 20971520,
+          "mimeTypes": [
+            "image/jpeg",
+            "image/png",
+            "image/gif",
+            "image/webp",
+            "application/pdf",
+            "application/zip"
+          ]
+        }
+      },
+      {
+        "name": "thumbnail",
+        "type": "file",
+        "required": false,
+        "options": {
+          "maxSelect": 1,
+          "maxSize": 1048576,
+          "mimeTypes": ["image/jpeg", "image/png", "image/webp"]
+        }
+      },
+      {
+        "name": "sort_order",
+        "type": "number",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 99
+        }
+      }
+    ],
+    "listRule": "submission_id.user_id = @request.auth.id || submission_id.sprint_id.status = 'voting' || submission_id.sprint_id.status = 'retro' || submission_id.sprint_id.status = 'completed'",
+    "viewRule": "submission_id.user_id = @request.auth.id || submission_id.sprint_id.status = 'voting' || submission_id.sprint_id.status = 'retro' || submission_id.sprint_id.status = 'completed'",
+    "createRule": "@request.auth.id != '' && submission_id.user_id = @request.auth.id",
+    "updateRule": "submission_id.user_id = @request.auth.id && submission_id.sprint_id.status = 'active'",
+    "deleteRule": "submission_id.user_id = @request.auth.id"
+  },
+  {
+    "name": "skills",
+    "type": "base",
+    "schema": [
+      {
+        "name": "name",
+        "type": "text",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 80
+        }
+      },
+      {
+        "name": "slug",
+        "type": "text",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 80,
+          "pattern": "^[a-z0-9-]+$"
+        }
+      },
+      {
+        "name": "description",
+        "type": "text",
+        "required": false,
+        "options": {
+          "max": 500
+        }
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX idx_skill_slug ON skills (slug)"
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "@request.auth.role = 'admin'",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "submission_skill_tags",
+    "type": "base",
+    "schema": [
+      {
+        "name": "submission_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "submissions",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "skill_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "skills",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "is_primary",
+        "type": "bool",
+        "required": false,
+        "options": {}
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX idx_submission_skill ON submission_skill_tags (submission_id, skill_id)"
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "@request.auth.id != '' && submission_id.user_id = @request.auth.id",
+    "updateRule": "submission_id.user_id = @request.auth.id",
+    "deleteRule": "submission_id.user_id = @request.auth.id"
+  },
+  {
+    "name": "user_skill_progress",
+    "type": "base",
+    "schema": [
+      {
+        "name": "user_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "skill_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "skills",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "sprint_id",
+        "type": "relation",
+        "required": false,
+        "options": {
+          "collectionId": "sprints",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "level",
+        "type": "number",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 100
+        }
+      },
+      {
+        "name": "xp",
+        "type": "number",
+        "required": true,
+        "options": {
+          "min": 0
+        }
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX idx_user_skill ON user_skill_progress (user_id, skill_id)"
+    ],
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.role = 'admin'",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "votes",
+    "type": "base",
+    "schema": [
+      {
+        "name": "sprint_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "sprints",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "submission_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "submissions",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "voter_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "rating_clarity",
+        "type": "number",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
+        "name": "rating_usability",
+        "type": "number",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
+        "name": "rating_visual_craft",
+        "type": "number",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
+        "name": "rating_originality",
+        "type": "number",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 5
+        }
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX idx_submission_voter ON votes (submission_id, voter_id)"
+    ],
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != '' && @request.data.voter_id = @request.auth.id && sprint_id.status = 'voting' && submission_id.user_id != @request.auth.id",
+    "updateRule": "@request.auth.id = voter_id && sprint_id.status = 'voting'",
+    "deleteRule": "@request.auth.id = voter_id && sprint_id.status = 'voting'"
+  },
+  {
+    "name": "feedback",
+    "type": "base",
+    "schema": [
+      {
+        "name": "sprint_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "sprints",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "submission_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "submissions",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "author_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "works_well",
+        "type": "editor",
+        "required": false,
+        "options": {}
+      },
+      {
+        "name": "to_improve",
+        "type": "editor",
+        "required": false,
+        "options": {}
+      },
+      {
+        "name": "question",
+        "type": "editor",
+        "required": false,
+        "options": {}
+      },
+      {
+        "name": "is_anonymous",
+        "type": "bool",
+        "required": true,
+        "options": {}
+      }
+    ],
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != '' && @request.data.author_id = @request.auth.id && (sprint_id.status = 'voting' || sprint_id.status = 'retro')",
+    "updateRule": "@request.auth.id = author_id && (sprint_id.status = 'voting' || sprint_id.status = 'retro')",
+    "deleteRule": "@request.auth.id = author_id"
+  },
+  {
+    "name": "feedback_helpful_marks",
+    "type": "base",
+    "schema": [
+      {
+        "name": "feedback_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "feedback",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "marked_by_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX idx_feedback_marker ON feedback_helpful_marks (feedback_id, marked_by_id)"
+    ],
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != '' && @request.data.marked_by_id = @request.auth.id",
+    "updateRule": null,
+    "deleteRule": "@request.auth.id = marked_by_id"
+  },
+  {
+    "name": "xp_events",
+    "type": "base",
+    "schema": [
+      {
+        "name": "user_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "sprint_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "sprints",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "source_type",
+        "type": "select",
+        "required": true,
+        "options": {
+          "maxSelect": 1,
+          "values": ["read_brief", "submit_design", "vote", "feedback", "reflection", "helpful_feedback"]
+        }
+      },
+      {
+        "name": "source_id",
+        "type": "text",
+        "required": false,
+        "options": {
+          "max": 50
+        }
+      },
+      {
+        "name": "amount",
+        "type": "number",
+        "required": true,
+        "options": {}
+      }
+    ],
+    "listRule": "@request.auth.id = user_id || @request.auth.role = 'admin'",
+    "viewRule": "@request.auth.id = user_id || @request.auth.role = 'admin'",
+    "createRule": "@request.auth.role = 'admin'",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "user_sprint_tasks",
+    "type": "base",
+    "schema": [
+      {
+        "name": "sprint_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "sprints",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "user_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "task_type",
+        "type": "select",
+        "required": true,
+        "options": {
+          "maxSelect": 1,
+          "values": ["read_brief", "upload_design", "vote_on_peers", "leave_feedback", "reflection"]
+        }
+      },
+      {
+        "name": "completed_at",
+        "type": "date",
+        "required": false,
+        "options": {}
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX idx_sprint_user_task ON user_sprint_tasks (sprint_id, user_id, task_type)"
+    ],
+    "listRule": "@request.auth.id = user_id || @request.auth.role = 'admin'",
+    "viewRule": "@request.auth.id = user_id || @request.auth.role = 'admin'",
+    "createRule": "@request.auth.id != '' && @request.data.user_id = @request.auth.id",
+    "updateRule": "@request.auth.id = user_id",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "badges",
+    "type": "base",
+    "schema": [
+      {
+        "name": "slug",
+        "type": "text",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 80,
+          "pattern": "^[a-z0-9-]+$"
+        }
+      },
+      {
+        "name": "name",
+        "type": "text",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 120
+        }
+      },
+      {
+        "name": "description",
+        "type": "text",
+        "required": false,
+        "options": {
+          "max": 500
+        }
+      },
+      {
+        "name": "icon_name",
+        "type": "text",
+        "required": false,
+        "options": {
+          "max": 80
+        }
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX idx_badge_slug ON badges (slug)"
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "@request.auth.role = 'admin'",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "user_badges",
+    "type": "base",
+    "schema": [
+      {
+        "name": "user_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "badge_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "badges",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "sprint_id",
+        "type": "relation",
+        "required": false,
+        "options": {
+          "collectionId": "sprints",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "awarded_at",
+        "type": "date",
+        "required": true,
+        "options": {}
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX idx_user_badge_sprint ON user_badges (user_id, badge_id, sprint_id)"
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "@request.auth.role = 'admin'",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "sprint_retro_summaries",
+    "type": "base",
+    "schema": [
+      {
+        "name": "sprint_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "sprints",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "submissions_count",
+        "type": "number",
+        "required": true,
+        "options": {
+          "min": 0
+        }
+      },
+      {
+        "name": "votes_count",
+        "type": "number",
+        "required": true,
+        "options": {
+          "min": 0
+        }
+      },
+      {
+        "name": "comments_count",
+        "type": "number",
+        "required": true,
+        "options": {
+          "min": 0
+        }
+      },
+      {
+        "name": "what_was_good",
+        "type": "editor",
+        "required": false,
+        "options": {}
+      },
+      {
+        "name": "what_can_improve",
+        "type": "editor",
+        "required": false,
+        "options": {}
+      },
+      {
+        "name": "what_was_asked",
+        "type": "editor",
+        "required": false,
+        "options": {}
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX idx_retro_sprint ON sprint_retro_summaries (sprint_id)"
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "@request.auth.role = 'admin'",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "sprint_retro_resources",
+    "type": "base",
+    "schema": [
+      {
+        "name": "sprint_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "sprints",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "title",
+        "type": "text",
+        "required": true,
+        "options": {
+          "min": 1,
+          "max": 255
+        }
+      },
+      {
+        "name": "url",
+        "type": "url",
+        "required": true,
+        "options": {}
+      },
+      {
+        "name": "resource_type",
+        "type": "select",
+        "required": true,
+        "options": {
+          "maxSelect": 1,
+          "values": ["article", "video", "documentation", "tool"]
+        }
+      }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "@request.auth.role = 'admin'",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "sprint_awards",
+    "type": "base",
+    "schema": [
+      {
+        "name": "sprint_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "sprints",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "award_type",
+        "type": "select",
+        "required": true,
+        "options": {
+          "maxSelect": 1,
+          "values": ["top_visual", "top_usability", "top_clarity", "top_originality", "feedback_mvp", "most_improved", "participation_champion"]
+        }
+      },
+      {
+        "name": "submission_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "submissions",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "user_id",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX idx_sprint_award_type ON sprint_awards (sprint_id, award_type)"
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "@request.auth.role = 'admin'",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  }
+]

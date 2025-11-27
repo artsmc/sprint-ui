@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Typography",
+    "slug": "typography",
+    "description": "The art and technique of arranging type to make written language legible, readable, and visually appealing. Includes font selection, sizing, spacing, and hierarchy."
+  },
+  {
+    "name": "Color Theory",
+    "slug": "color-theory",
+    "description": "Understanding color relationships, contrast, harmony, and psychological effects. Applying color strategically to create mood, hierarchy, and brand consistency."
+  },
+  {
+    "name": "Visual Hierarchy",
+    "slug": "visual-hierarchy",
+    "description": "Organizing elements to guide user attention and create clear information flow. Using size, color, contrast, and spacing to communicate importance."
+  },
+  {
+    "name": "Layout & Composition",
+    "slug": "layout-composition",
+    "description": "Arranging visual elements on a page or screen using grids, alignment, and whitespace to create balanced, functional designs."
+  },
+  {
+    "name": "Iconography",
+    "slug": "iconography",
+    "description": "Creating and selecting icons that clearly communicate meaning. Understanding icon systems, consistency, and contextual appropriateness."
+  },
+  {
+    "name": "User Research",
+    "slug": "user-research",
+    "description": "Gathering insights about user needs, behaviors, and pain points through interviews, surveys, observation, and data analysis."
+  },
+  {
+    "name": "Information Architecture",
+    "slug": "information-architecture",
+    "description": "Organizing and structuring content to help users find information and complete tasks efficiently. Creating navigation systems and content hierarchies."
+  },
+  {
+    "name": "Interaction Design",
+    "slug": "interaction-design",
+    "description": "Designing how users interact with interfaces through clicks, taps, gestures, and other inputs. Creating intuitive, responsive experiences."
+  },
+  {
+    "name": "Usability",
+    "slug": "usability",
+    "description": "Ensuring products are easy to learn, efficient to use, and satisfying. Identifying and eliminating friction points in user flows."
+  },
+  {
+    "name": "Accessibility",
+    "slug": "accessibility",
+    "description": "Designing for users with diverse abilities including visual, auditory, motor, and cognitive disabilities. Following WCAG guidelines."
+  },
+  {
+    "name": "Component Design",
+    "slug": "component-design",
+    "description": "Creating reusable UI components that are flexible, consistent, and maintainable. Understanding component states, variants, and edge cases."
+  },
+  {
+    "name": "Design Systems",
+    "slug": "design-systems",
+    "description": "Building and maintaining collections of reusable components, patterns, and guidelines that ensure consistency across products."
+  },
+  {
+    "name": "Responsive Design",
+    "slug": "responsive-design",
+    "description": "Creating layouts that adapt gracefully to different screen sizes and devices. Understanding breakpoints, fluid grids, and mobile-first approaches."
+  },
+  {
+    "name": "Micro-interactions",
+    "slug": "micro-interactions",
+    "description": "Designing small, functional animations that provide feedback, guide users, and add personality to interfaces."
+  },
+  {
+    "name": "Visual Consistency",
+    "slug": "visual-consistency",
+    "description": "Maintaining coherent visual language across screens and states. Ensuring elements look and behave predictably throughout an experience."
+  },
+  {
+    "name": "Problem Solving",
+    "slug": "problem-solving",
+    "description": "Analyzing design challenges, exploring multiple solutions, and choosing approaches that best meet user and business needs."
+  },
+  {
+    "name": "Iteration",
+    "slug": "iteration",
+    "description": "Refining designs through multiple rounds of testing, feedback, and improvement. Knowing when to polish vs. when to pivot."
+  },
+  {
+    "name": "Feedback Integration",
+    "slug": "feedback-integration",
+    "description": "Receiving, processing, and incorporating feedback from users, stakeholders, and peers while maintaining design integrity."
+  },
+  {
+    "name": "Communication",
+    "slug": "communication",
+    "description": "Articulating design decisions and rationale clearly. Presenting work effectively to stakeholders and collaborating with cross-functional teams."
+  },
+  {
+    "name": "Time Management",
+    "slug": "time-management",
+    "description": "Prioritizing work, meeting deadlines, and balancing quality with speed. Knowing when to continue iterating vs. when to ship."
+  }
+]

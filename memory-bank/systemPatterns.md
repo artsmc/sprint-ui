@@ -3,19 +3,21 @@
 ## Architecture Overview
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    Next.js Frontend                      │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐  │
-│  │   App Router │  │  Components │  │   lib/          │  │
-│  │   (pages)    │  │             │  │   pocketbase.ts │  │
-│  └─────────────┘  └─────────────┘  └────────┬────────┘  │
-└────────────────────────────────────────────┼────────────┘
-                                              │
-                                              ▼
-                                    ┌─────────────────┐
-                                    │   PocketBase    │
-                                    │   (Backend)     │
-                                    └─────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    Next.js Frontend                          │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │   App Router │  │  Components │  │   lib/              │  │
+│  │   (pages)    │  │  (@/ui/*)   │  │   ├── pocketbase.ts │  │
+│  │             │  │             │  │   ├── types/        │  │
+│  │             │  │             │  │   └── api/ (planned)│  │
+│  └─────────────┘  └─────────────┘  └──────────┬──────────┘  │
+└───────────────────────────────────────────────┼─────────────┘
+                                                │
+                                                ▼
+                                      ┌─────────────────┐
+                                      │   PocketBase    │
+                                      │   (19 tables)   │
+                                      └─────────────────┘
 ```
 
 ## Key Patterns
@@ -36,13 +38,6 @@ export const env = createEnv({
 });
 ```
 
-**Usage pattern:**
-```typescript
-import { env } from '@/env';
-// Type-safe, validated at build/runtime
-const url = env.NEXT_PUBLIC_POCKETBASE_URL;
-```
-
 ### PocketBase Client Pattern
 
 Singleton PocketBase client in `lib/pocketbase.ts`:
@@ -55,63 +50,115 @@ const pb = new PocketBase(env.NEXT_PUBLIC_POCKETBASE_URL);
 export default pb;
 ```
 
+### Type-Safe Queries
+
+```typescript
+import type { Sprint, SprintWithChallenge } from '@/lib/types';
+import { Collections } from '@/lib/types';
+import pb from '@/lib/pocketbase';
+
+// List with type safety
+const sprints = await pb.collection(Collections.SPRINTS).getList<Sprint>();
+
+// Expand relations
+const sprint = await pb.collection(Collections.SPRINTS).getOne<SprintWithChallenge>(id, {
+  expand: 'challenge_id'
+});
+console.log(sprint.expand?.challenge_id.title);
+```
+
 ### Path Aliases
 
 Using `@/` alias for clean imports (configured in `tsconfig.json`):
 - `@/env` → `./env.ts`
 - `@/lib/*` → `./lib/*`
-- `@/app/*` → `./app/*`
+- `@/lib/types` → `./lib/types/index.ts`
 - `@/ui/*` → `./app/ui/*` (Subframe components)
 
 ### Subframe UI Components
 
-Subframe provides pre-built, customizable UI components synced via CLI:
+Subframe provides pre-built, customizable UI components:
 
-```bash
-# Sync all components from Subframe project
-npx @subframe/cli@latest sync --all -p d54d6bb0b72d
-```
-
-**Configuration** (`.subframe/sync.json`):
-```json
-{
-  "directory": "./app/ui",
-  "importAlias": "@/ui/*",
-  "projectId": "d54d6bb0b72d",
-  "cssType": "tailwind-v4"
-}
-```
-
-**Usage pattern:**
 ```typescript
 import { Button } from "@/ui/components/Button";
 ```
+
+## Implemented Data Model
+
+### Core Collections
+
+| Collection | Type | Purpose |
+|------------|------|---------|
+| users | auth | Designer profiles with roles (designer/admin) |
+| challenges | base | 100 UI design prompts |
+| sprints | base | Biweekly challenge periods |
+| sprint_participants | base | User-sprint membership |
+
+### Submission Collections
+
+| Collection | Type | Purpose |
+|------------|------|---------|
+| submissions | base | Design submissions (draft/submitted) |
+| submission_assets | base | File attachments (images, PDFs, zips) |
+| submission_skill_tags | base | Skill tags on submissions |
+
+### Feedback Collections
+
+| Collection | Type | Purpose |
+|------------|------|---------|
+| votes | base | 4-category ratings (clarity, usability, visual_craft, originality) |
+| feedback | base | Structured written feedback (works_well, to_improve, question) |
+| feedback_helpful_marks | base | Tracks helpful votes on feedback |
+
+### Gamification Collections
+
+| Collection | Type | Purpose |
+|------------|------|---------|
+| skills | base | 20 design skills |
+| user_skill_progress | base | User XP per skill |
+| badges | base | 15 achievement badges |
+| user_badges | base | Awarded badges |
+| xp_events | base | XP earning ledger |
+| user_sprint_tasks | base | Sprint task checklist |
+
+### Retrospective Collections
+
+| Collection | Type | Purpose |
+|------------|------|---------|
+| sprint_retro_summaries | base | AI-generated sprint summaries |
+| sprint_retro_resources | base | Learning resources |
+| sprint_awards | base | Sprint awards (top_visual, feedback_mvp, etc.) |
+
+## Sprint Lifecycle
+
+```
+scheduled → active → voting → retro → completed
+                                   ↘ cancelled
+```
+
+- **scheduled**: Sprint created, not yet started
+- **active**: Designers can submit designs
+- **voting**: Designers vote and provide feedback
+- **retro**: Review period, awards assigned
+- **completed**: Sprint archived
+
+## API Rules Pattern
+
+| Rule Type | Example |
+|-----------|---------|
+| Public read | `listRule: ""` (challenges, skills, badges) |
+| Auth required | `listRule: "@request.auth.id != ''"` |
+| Owner only | `updateRule: "@request.auth.id = user_id"` |
+| Admin only | `createRule: "@request.auth.role = 'admin'"` |
+| Phase-based | `createRule: "... && sprint_id.status = 'voting'"` |
 
 ## Design Decisions
 
 | Decision | Rationale |
 |----------|-----------|
-| T3 Env for env vars | Type safety, build-time validation, better DX |
+| T3 Env for env vars | Type safety, build-time validation |
 | PocketBase singleton | Single instance, consistent state |
 | App Router | Latest Next.js patterns, server components |
-
-## Component Patterns
-
-*To be defined as components are built*
-
-## Data Flow Patterns
-
-*To be defined as features are implemented*
-
-## Proposed Data Model
-
-*PocketBase collections to be implemented:*
-
-| Collection | Purpose |
-|------------|---------|
-| users | Designer profiles (PocketBase auth) |
-| sprints | Challenge periods with prompt reference |
-| challenges | 100 UI prompts (seeded data) |
-| submissions | Design uploads linked to sprint + user |
-| votes | User votes on submissions |
-| feedback | Anonymous text feedback on submissions |
+| TypeScript interfaces | Type-safe API interactions |
+| Modular types | Separate base vs expanded types |
+| Collection constants | Avoid string typos in queries |

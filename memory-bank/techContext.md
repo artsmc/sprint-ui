@@ -11,7 +11,7 @@
 
 ### Backend
 - **PocketBase** - Backend as a service (BaaS)
-  - Database
+  - Database (SQLite)
   - Authentication
   - Real-time subscriptions
   - File storage
@@ -38,6 +38,9 @@ npm run build
 
 # Start production server
 npm start
+
+# Docker (full stack)
+docker-compose up --build
 ```
 
 ## Environment Variables
@@ -57,10 +60,18 @@ sprint-ui/
 │   ├── layout.tsx
 │   └── page.tsx
 ├── lib/                  # Shared utilities
-│   └── pocketbase.ts     # PocketBase client
-├── .subframe/            # Subframe CLI config
-│   └── sync.json
+│   ├── pocketbase.ts     # PocketBase client singleton
+│   └── types/            # TypeScript type definitions
+│       ├── pocketbase.ts # Base collection interfaces
+│       ├── expanded.ts   # Expanded types with relations
+│       └── index.ts      # Barrel export
+├── seed-data/            # JSON seed data files
+│   ├── challenges.json   # 100 design challenges
+│   ├── skills.json       # 20 design skills
+│   └── badges.json       # 15 achievement badges
+├── pb_schema.json        # PocketBase schema export
 ├── memory-bank/          # Project documentation
+├── cline-docs/           # Architecture documentation
 ├── env.ts                # T3 Env configuration
 ├── Dockerfile
 ├── docker-compose.yml
@@ -75,3 +86,14 @@ See `package.json` for full list. Key dependencies:
 - `pocketbase`: ^0.26.3
 - `@t3-oss/env-nextjs`: latest
 - `zod`: latest
+
+## Type Imports
+
+```typescript
+// Import types from lib/types
+import type { User, Sprint, Submission, VoteStats } from '@/lib/types';
+import { Collections } from '@/lib/types';
+
+// Type-safe PocketBase queries
+const sprints = await pb.collection(Collections.SPRINTS).getList<Sprint>();
+```

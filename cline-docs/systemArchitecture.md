@@ -16,6 +16,7 @@ flowchart TB
 
         subgraph Lib["Library Layer"]
             PBClient["PocketBase Client"]
+            Types["TypeScript Types"]
             EnvConfig["T3 Env Config"]
         end
     end
@@ -54,68 +55,122 @@ sequenceDiagram
     NextJS-->>User: Rendered Page/Data
 ```
 
-## Database Schema
+## Database Schema (19 Collections)
 
-*PocketBase collections for the design challenge platform:*
+### Entity Relationships
 
 ```mermaid
 erDiagram
+    %% Core Entities
+    USERS ||--o{ SPRINT_PARTICIPANTS : joins
     USERS ||--o{ SUBMISSIONS : creates
     USERS ||--o{ VOTES : casts
     USERS ||--o{ FEEDBACK : writes
+    USERS ||--o{ USER_SKILL_PROGRESS : tracks
+    USERS ||--o{ USER_BADGES : earns
+    USERS ||--o{ XP_EVENTS : receives
+    USERS ||--o{ USER_SPRINT_TASKS : completes
+
+    CHALLENGES ||--o{ SPRINTS : used_in
+    SPRINTS ||--o{ SPRINT_PARTICIPANTS : has
     SPRINTS ||--o{ SUBMISSIONS : contains
-    SPRINTS }|--|| CHALLENGES : uses
+    SPRINTS ||--o{ SPRINT_RETRO_SUMMARIES : summarized_by
+    SPRINTS ||--o{ SPRINT_RETRO_RESOURCES : has
+    SPRINTS ||--o{ SPRINT_AWARDS : awards
+
+    SUBMISSIONS ||--o{ SUBMISSION_ASSETS : has
+    SUBMISSIONS ||--o{ SUBMISSION_SKILL_TAGS : tagged_with
     SUBMISSIONS ||--o{ VOTES : receives
     SUBMISSIONS ||--o{ FEEDBACK : receives
 
+    SKILLS ||--o{ USER_SKILL_PROGRESS : tracked_in
+    SKILLS ||--o{ SUBMISSION_SKILL_TAGS : applied_to
+
+    BADGES ||--o{ USER_BADGES : awarded_as
+
+    FEEDBACK ||--o{ FEEDBACK_HELPFUL_MARKS : marked
+
+    %% Core Collections
     USERS {
         string id PK
         string email
         string name
         string avatar
-        datetime created
-        datetime updated
+        string role "designer|admin"
     }
 
     CHALLENGES {
-        int id PK
+        string id PK
+        int challenge_number
+        string title
         string prompt
         string details
     }
 
     SPRINTS {
         string id PK
-        int challenge_id FK
+        string challenge_id FK
         datetime start_date
         datetime submission_deadline
         datetime voting_deadline
-        string status
+        datetime retro_deadline
+        string status "scheduled|active|voting|retro|completed|cancelled"
     }
 
     SUBMISSIONS {
         string id PK
         string sprint_id FK
         string user_id FK
-        string design_url
-        string designer_name
-        datetime created
+        string description
+        string status "draft|submitted"
     }
 
     VOTES {
         string id PK
         string submission_id FK
         string voter_id FK
-        int score
-        datetime created
+        int clarity "1-5"
+        int usability "1-5"
+        int visual_craft "1-5"
+        int originality "1-5"
     }
 
     FEEDBACK {
         string id PK
         string submission_id FK
         string author_id FK
-        string content
-        datetime created
+        string works_well
+        string to_improve
+        string question
+        boolean is_anonymous
     }
+```
+
+### Collection Groups
+
+| Group | Collections | Purpose |
+|-------|-------------|---------|
+| **Core** | users, challenges, sprints, sprint_participants | Platform foundation |
+| **Submissions** | submissions, submission_assets, submission_skill_tags | Design entries |
+| **Feedback** | votes, feedback, feedback_helpful_marks | Peer evaluation |
+| **Gamification** | skills, user_skill_progress, badges, user_badges, xp_events, user_sprint_tasks | Engagement |
+| **Retrospective** | sprint_retro_summaries, sprint_retro_resources, sprint_awards | Sprint wrap-up |
+
+## Sprint Lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> scheduled: Sprint created
+    scheduled --> active: Start date reached
+    active --> voting: Submission deadline passed
+    voting --> retro: Voting deadline passed
+    retro --> completed: Retro deadline passed
+    scheduled --> cancelled: Admin cancels
+    active --> cancelled: Admin cancels
+
+    note right of active: Designers submit designs
+    note right of voting: 4-category voting + feedback
+    note right of retro: Awards assigned, AI summary
 ```
 
 ## File Architecture
@@ -123,17 +178,23 @@ erDiagram
 ```
 sprint-ui/
 ├── app/                    # Next.js App Router
+│   ├── ui/                 # Subframe UI components
 │   ├── layout.tsx          # Root layout
 │   └── page.tsx            # Home page
 ├── lib/                    # Shared utilities
-│   └── pocketbase.ts       # PocketBase singleton client
+│   ├── pocketbase.ts       # PocketBase singleton client
+│   └── types/              # TypeScript type definitions
+│       ├── pocketbase.ts   # Base collection interfaces
+│       ├── expanded.ts     # Expanded types with relations
+│       └── index.ts        # Barrel export
+├── seed-data/              # JSON seed data files
+│   ├── challenges.json     # 100 design challenges
+│   ├── skills.json         # 20 design skills
+│   └── badges.json         # 15 achievement badges
 ├── cline-docs/             # Architecture Documentation Hub
-│   ├── systemArchitecture.md
-│   ├── keyPairResponsibility.md
-│   ├── glossary.md
-│   └── techStack.md
 ├── memory-bank/            # Project Progress & Context
 ├── env.ts                  # T3 Env configuration
+├── pb_schema.json          # PocketBase schema export
 ├── CLAUDE.md               # AI assistant guidance
 ├── Dockerfile              # Container definition
 └── docker-compose.yml      # Multi-container setup
@@ -146,6 +207,8 @@ sprint-ui/
 | Singleton | PocketBase client instance | `lib/pocketbase.ts` |
 | Validation | Environment variable schema | `env.ts` |
 | Composition | App Router layouts | `app/layout.tsx` |
+| Type Safety | Collection interfaces | `lib/types/` |
+| Barrel Export | Clean imports | `lib/types/index.ts` |
 
 ## Container Architecture
 

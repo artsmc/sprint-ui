@@ -10,6 +10,12 @@
 | **React** | 19.2.0 | UI component library |
 | **React DOM** | 19.2.0 | React rendering for web |
 
+### UI Components
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **Subframe** | - | Pre-built UI component library (SprintUI project) |
+
 ### Styling
 
 | Technology | Version | Purpose |
@@ -73,6 +79,12 @@
 - No CSS files to manage
 - Excellent DX with IDE support
 - Small production bundle (purges unused styles)
+
+### Why Subframe?
+- Pre-built, customizable UI components
+- Consistent design system
+- Accelerates UI development
+- TypeScript-first component library
 
 ---
 
