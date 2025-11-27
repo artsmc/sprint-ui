@@ -13,6 +13,7 @@ import type {
 } from '@/lib/types';
 import { Collections } from '@/lib/types';
 import { getCurrentUser } from '@/lib/api/auth';
+import { filterEquals, filterAnd } from '@/lib/utils';
 
 // =============================================================================
 // Types
@@ -100,7 +101,7 @@ export async function getSprintParticipants(
   const result = await pb
     .collection(Collections.SPRINT_PARTICIPANTS)
     .getFullList<SprintParticipant>({
-      filter: `sprint_id = "${sprintId}"`,
+      filter: filterEquals('sprint_id', sprintId),
       sort: 'joined_at',
     });
 
@@ -119,7 +120,7 @@ export async function getSprintParticipantsWithUsers(
   const result = await pb
     .collection(Collections.SPRINT_PARTICIPANTS)
     .getFullList<SprintParticipantWithRelations>({
-      filter: `sprint_id = "${sprintId}"`,
+      filter: filterEquals('sprint_id', sprintId),
       expand: 'user_id',
       sort: 'joined_at',
     });
@@ -149,7 +150,7 @@ export async function getUserSprints(
   const result = await pb
     .collection(Collections.SPRINT_PARTICIPANTS)
     .getFullList<SprintParticipantWithRelations>({
-      filter: `user_id = "${targetUserId}"`,
+      filter: filterEquals('user_id', targetUserId),
       expand: 'sprint_id',
       sort: '-joined_at',
     });
@@ -193,7 +194,7 @@ export async function getParticipantCount(sprintId: string): Promise<number> {
   const result = await pb
     .collection(Collections.SPRINT_PARTICIPANTS)
     .getList<SprintParticipant>(1, 1, {
-      filter: `sprint_id = "${sprintId}"`,
+      filter: filterEquals('sprint_id', sprintId),
       fields: 'id',
     });
 
@@ -219,7 +220,10 @@ async function findParticipant(
     const result = await pb
       .collection(Collections.SPRINT_PARTICIPANTS)
       .getFirstListItem<SprintParticipant>(
-        `sprint_id = "${sprintId}" && user_id = "${userId}"`
+        filterAnd([
+          filterEquals('sprint_id', sprintId),
+          filterEquals('user_id', userId),
+        ])
       );
 
     return result;
@@ -249,7 +253,7 @@ export async function getSprintParticipantsPaginated(
   const result = await pb
     .collection(Collections.SPRINT_PARTICIPANTS)
     .getList<SprintParticipant>(page, perPage, {
-      filter: `sprint_id = "${sprintId}"`,
+      filter: filterEquals('sprint_id', sprintId),
       sort: 'joined_at',
     });
 
@@ -272,7 +276,7 @@ export async function getSprintParticipantsWithUsersPaginated(
   const result = await pb
     .collection(Collections.SPRINT_PARTICIPANTS)
     .getList<SprintParticipantWithRelations>(page, perPage, {
-      filter: `sprint_id = "${sprintId}"`,
+      filter: filterEquals('sprint_id', sprintId),
       expand: 'user_id',
       sort: 'joined_at',
     });

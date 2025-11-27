@@ -14,6 +14,7 @@ import type {
 } from '@/lib/types';
 import { Collections } from '@/lib/types';
 import { getCurrentUser } from '@/lib/api/auth';
+import { filterEquals, filterAnd } from '@/lib/utils';
 
 // =============================================================================
 // Types
@@ -171,7 +172,7 @@ export async function getFeedbackBySubmission(
   submissionId: string
 ): Promise<Feedback[]> {
   const result = await pb.collection(Collections.FEEDBACK).getFullList<Feedback>({
-    filter: `submission_id = "${submissionId}"`,
+    filter: filterEquals('submission_id', submissionId),
     sort: '-created',
   });
 
@@ -197,7 +198,10 @@ export async function getUserFeedbackForSubmission(
 
   try {
     const result = await pb.collection(Collections.FEEDBACK).getFirstListItem<Feedback>(
-      `submission_id = "${submissionId}" && author_id = "${targetUserId}"`
+      filterAnd([
+        filterEquals('submission_id', submissionId),
+        filterEquals('author_id', targetUserId),
+      ])
     );
     return result;
   } catch {
@@ -259,7 +263,10 @@ export async function unmarkFeedbackHelpful(feedbackId: string): Promise<void> {
     const mark = await pb
       .collection(Collections.FEEDBACK_HELPFUL_MARKS)
       .getFirstListItem<FeedbackHelpfulMark>(
-        `feedback_id = "${feedbackId}" && marked_by_id = "${user.id}"`
+        filterAnd([
+          filterEquals('feedback_id', feedbackId),
+          filterEquals('marked_by_id', user.id),
+        ])
       );
 
     await pb.collection(Collections.FEEDBACK_HELPFUL_MARKS).delete(mark.id);
@@ -289,7 +296,10 @@ export async function hasUserMarkedHelpful(
     await pb
       .collection(Collections.FEEDBACK_HELPFUL_MARKS)
       .getFirstListItem<FeedbackHelpfulMark>(
-        `feedback_id = "${feedbackId}" && marked_by_id = "${targetUserId}"`
+        filterAnd([
+          filterEquals('feedback_id', feedbackId),
+          filterEquals('marked_by_id', targetUserId),
+        ])
       );
     return true;
   } catch {
@@ -307,7 +317,7 @@ export async function getHelpfulCount(feedbackId: string): Promise<number> {
   const result = await pb
     .collection(Collections.FEEDBACK_HELPFUL_MARKS)
     .getList<FeedbackHelpfulMark>(1, 1, {
-      filter: `feedback_id = "${feedbackId}"`,
+      filter: filterEquals('feedback_id', feedbackId),
     });
 
   return result.totalItems;
@@ -325,7 +335,7 @@ export async function getHelpfulCount(feedbackId: string): Promise<number> {
  */
 export async function getFeedbackCount(submissionId: string): Promise<number> {
   const result = await pb.collection(Collections.FEEDBACK).getList<Feedback>(1, 1, {
-    filter: `submission_id = "${submissionId}"`,
+    filter: filterEquals('submission_id', submissionId),
   });
 
   return result.totalItems;

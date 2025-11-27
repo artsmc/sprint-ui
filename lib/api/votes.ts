@@ -10,6 +10,7 @@ import pb from '@/lib/pocketbase';
 import type { Vote, VoteStats, VoteWithRelations } from '@/lib/types';
 import { Collections } from '@/lib/types';
 import { getCurrentUser } from '@/lib/api/auth';
+import { filterEquals, filterAnd } from '@/lib/utils';
 
 // =============================================================================
 // Types
@@ -139,7 +140,7 @@ export async function getVoteWithRelations(id: string): Promise<VoteWithRelation
  */
 export async function getVotesBySubmission(submissionId: string): Promise<Vote[]> {
   const result = await pb.collection(Collections.VOTES).getFullList<Vote>({
-    filter: `submission_id = "${submissionId}"`,
+    filter: filterEquals('submission_id', submissionId),
     sort: '-created',
   });
 
@@ -165,7 +166,10 @@ export async function getUserVote(
 
   try {
     const result = await pb.collection(Collections.VOTES).getFirstListItem<Vote>(
-      `submission_id = "${submissionId}" && voter_id = "${voterId}"`
+      filterAnd([
+        filterEquals('submission_id', submissionId),
+        filterEquals('voter_id', voterId),
+      ])
     );
     return result;
   } catch {
@@ -208,7 +212,10 @@ export async function getUserVotesForSprint(
   }
 
   const result = await pb.collection(Collections.VOTES).getFullList<Vote>({
-    filter: `sprint_id = "${sprintId}" && voter_id = "${voterId}"`,
+    filter: filterAnd([
+      filterEquals('sprint_id', sprintId),
+      filterEquals('voter_id', voterId),
+    ]),
     sort: '-created',
   });
 
@@ -223,7 +230,7 @@ export async function getUserVotesForSprint(
  */
 export async function getVoteCount(submissionId: string): Promise<number> {
   const result = await pb.collection(Collections.VOTES).getList<Vote>(1, 1, {
-    filter: `submission_id = "${submissionId}"`,
+    filter: filterEquals('submission_id', submissionId),
   });
 
   return result.totalItems;

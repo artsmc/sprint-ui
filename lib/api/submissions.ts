@@ -17,6 +17,7 @@ import type {
 } from '@/lib/types';
 import { Collections } from '@/lib/types';
 import { getCurrentUser } from '@/lib/api/auth';
+import { filterEquals, filterAnd } from '@/lib/utils';
 
 // =============================================================================
 // Types
@@ -235,7 +236,7 @@ export async function getSubmissionsBySprint(
   const { page = 1, perPage = 50, sort = '-created' } = options;
 
   return pb.collection(Collections.SUBMISSIONS).getList<SubmissionWithRelations>(page, perPage, {
-    filter: `sprint_id = "${sprintId}"`,
+    filter: filterEquals('sprint_id', sprintId),
     sort,
     expand: 'user_id,sprint_id',
   });
@@ -256,7 +257,10 @@ export async function getSubmittedSubmissionsBySprint(
   const { page = 1, perPage = 50, sort = '-submitted_at' } = options;
 
   return pb.collection(Collections.SUBMISSIONS).getList<SubmissionWithRelations>(page, perPage, {
-    filter: `sprint_id = "${sprintId}" && status = "submitted"`,
+    filter: filterAnd([
+      filterEquals('sprint_id', sprintId),
+      filterEquals('status', 'submitted'),
+    ]),
     sort,
     expand: 'user_id,sprint_id',
   });
@@ -287,7 +291,7 @@ export async function getUserSubmissions(
   const { page = 1, perPage = 50, sort = '-created' } = options;
 
   return pb.collection(Collections.SUBMISSIONS).getList<SubmissionWithRelations>(page, perPage, {
-    filter: `user_id = "${targetUserId}"`,
+    filter: filterEquals('user_id', targetUserId),
     sort,
     expand: 'user_id,sprint_id',
   });
@@ -315,7 +319,10 @@ export async function getUserSubmissionForSprint(
     const result = await pb
       .collection(Collections.SUBMISSIONS)
       .getFirstListItem<SubmissionWithRelations>(
-        `sprint_id = "${sprintId}" && user_id = "${targetUserId}"`,
+        filterAnd([
+          filterEquals('sprint_id', sprintId),
+          filterEquals('user_id', targetUserId),
+        ]),
         {
           expand: 'user_id,sprint_id',
         }
@@ -352,7 +359,11 @@ export async function hasUserSubmitted(
     await pb
       .collection(Collections.SUBMISSIONS)
       .getFirstListItem<Submission>(
-        `sprint_id = "${sprintId}" && user_id = "${targetUserId}" && status = "submitted"`
+        filterAnd([
+          filterEquals('sprint_id', sprintId),
+          filterEquals('user_id', targetUserId),
+          filterEquals('status', 'submitted'),
+        ])
       );
     return true;
   } catch (error) {
@@ -380,8 +391,11 @@ export async function getSubmissionCount(
   onlySubmitted: boolean = false
 ): Promise<number> {
   const filter = onlySubmitted
-    ? `sprint_id = "${sprintId}" && status = "submitted"`
-    : `sprint_id = "${sprintId}"`;
+    ? filterAnd([
+        filterEquals('sprint_id', sprintId),
+        filterEquals('status', 'submitted'),
+      ])
+    : filterEquals('sprint_id', sprintId);
 
   const result = await pb.collection(Collections.SUBMISSIONS).getList<Submission>(1, 1, {
     filter,

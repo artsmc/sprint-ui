@@ -13,6 +13,7 @@ import type {
 } from '@/lib/types';
 import { Collections } from '@/lib/types';
 import { getCurrentUser } from '@/lib/api/auth';
+import { filterEquals, filterAnd } from '@/lib/utils';
 
 // =============================================================================
 // Types
@@ -69,7 +70,7 @@ export async function getBadge(id: string): Promise<Badge> {
  */
 export async function getBadgeBySlug(slug: string): Promise<Badge> {
   return pb.collection(Collections.BADGES).getFirstListItem<Badge>(
-    `slug = "${slug}"`
+    filterEquals('slug', slug)
   );
 }
 
@@ -98,7 +99,10 @@ export async function awardBadge(
   const existingBadges = await pb
     .collection(Collections.USER_BADGES)
     .getFullList<UserBadge>({
-      filter: `user_id = "${userId}" && badge_id = "${badgeId}"`,
+      filter: filterAnd([
+        filterEquals('user_id', userId),
+        filterEquals('badge_id', badgeId),
+      ]),
     });
 
   if (existingBadges.length > 0) {
@@ -161,7 +165,7 @@ export async function getUserBadges(userId?: string): Promise<UserBadge[]> {
   }
 
   return pb.collection(Collections.USER_BADGES).getFullList<UserBadge>({
-    filter: `user_id = "${targetUserId}"`,
+    filter: filterEquals('user_id', targetUserId),
     sort: '-awarded_at',
   });
 }
@@ -185,7 +189,7 @@ export async function getUserBadgesWithDetails(
   }
 
   return pb.collection(Collections.USER_BADGES).getFullList<UserBadgeWithRelations>({
-    filter: `user_id = "${targetUserId}"`,
+    filter: filterEquals('user_id', targetUserId),
     expand: 'badge_id,sprint_id',
     sort: '-awarded_at',
   });
@@ -222,7 +226,10 @@ export async function hasUserBadge(
   const userBadges = await pb
     .collection(Collections.USER_BADGES)
     .getFullList<UserBadge>({
-      filter: `user_id = "${targetUserId}" && badge_id = "${badge.id}"`,
+      filter: filterAnd([
+        filterEquals('user_id', targetUserId),
+        filterEquals('badge_id', badge.id),
+      ]),
     });
 
   return userBadges.length > 0;
@@ -244,7 +251,7 @@ export async function getBadgeHolders(
   badgeId: string
 ): Promise<UserBadgeWithRelations[]> {
   return pb.collection(Collections.USER_BADGES).getFullList<UserBadgeWithRelations>({
-    filter: `badge_id = "${badgeId}"`,
+    filter: filterEquals('badge_id', badgeId),
     expand: 'user_id',
     sort: '-awarded_at',
   });

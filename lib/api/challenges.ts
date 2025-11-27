@@ -11,6 +11,7 @@
 import pb from '@/lib/pocketbase';
 import type { Challenge, ListResult } from '@/lib/types';
 import { Collections } from '@/lib/types';
+import { filterContains, filterOr } from '@/lib/utils';
 
 // =============================================================================
 // Types
@@ -250,7 +251,10 @@ export async function searchChallenges(
   page: number = 1,
   perPage: number = 30
 ): Promise<ListResult<Challenge>> {
-  const filter = `title ~ "${query}" || brief ~ "${query}"`;
+  const filter = filterOr([
+    filterContains('title', query),
+    filterContains('brief', query),
+  ]);
 
   return pb.collection(Collections.CHALLENGES).getList<Challenge>(page, perPage, {
     filter,

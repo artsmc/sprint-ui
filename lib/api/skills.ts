@@ -13,6 +13,7 @@ import type {
 } from '@/lib/types';
 import { Collections } from '@/lib/types';
 import { getCurrentUser } from '@/lib/api/auth';
+import { filterEquals, filterAnd } from '@/lib/utils';
 
 // =============================================================================
 // Types
@@ -80,7 +81,7 @@ export async function getSkill(id: string): Promise<Skill> {
  */
 export async function getSkillBySlug(slug: string): Promise<Skill> {
   return pb.collection(Collections.SKILLS).getFirstListItem<Skill>(
-    `slug = "${slug}"`
+    filterEquals('slug', slug)
   );
 }
 
@@ -106,7 +107,10 @@ export async function tagSubmissionWithSkill(
     const existingPrimary = await pb
       .collection(Collections.SUBMISSION_SKILL_TAGS)
       .getFullList<SubmissionSkillTag>({
-        filter: `submission_id = "${submissionId}" && is_primary = true`,
+        filter: filterAnd([
+          filterEquals('submission_id', submissionId),
+          filterEquals('is_primary', 'true'),
+        ]),
       });
 
     // Unset is_primary on any existing primary tags
@@ -121,7 +125,10 @@ export async function tagSubmissionWithSkill(
   const existingTag = await pb
     .collection(Collections.SUBMISSION_SKILL_TAGS)
     .getFullList<SubmissionSkillTag>({
-      filter: `submission_id = "${submissionId}" && skill_id = "${skillId}"`,
+      filter: filterAnd([
+        filterEquals('submission_id', submissionId),
+        filterEquals('skill_id', skillId),
+      ]),
     });
 
   if (existingTag.length > 0) {
@@ -156,7 +163,10 @@ export async function removeSkillTag(
   const existingTags = await pb
     .collection(Collections.SUBMISSION_SKILL_TAGS)
     .getFullList<SubmissionSkillTag>({
-      filter: `submission_id = "${submissionId}" && skill_id = "${skillId}"`,
+      filter: filterAnd([
+        filterEquals('submission_id', submissionId),
+        filterEquals('skill_id', skillId),
+      ]),
     });
 
   if (existingTags.length === 0) {
@@ -179,7 +189,7 @@ export async function getSubmissionSkills(
   return pb
     .collection(Collections.SUBMISSION_SKILL_TAGS)
     .getFullList<SubmissionSkillTagWithSkill>({
-      filter: `submission_id = "${submissionId}"`,
+      filter: filterEquals('submission_id', submissionId),
       expand: 'skill_id',
       sort: '-is_primary,created',
     });
@@ -197,7 +207,10 @@ export async function getPrimarySkill(
   const tags = await pb
     .collection(Collections.SUBMISSION_SKILL_TAGS)
     .getFullList<SubmissionSkillTagWithSkill>({
-      filter: `submission_id = "${submissionId}" && is_primary = true`,
+      filter: filterAnd([
+        filterEquals('submission_id', submissionId),
+        filterEquals('is_primary', 'true'),
+      ]),
       expand: 'skill_id',
     });
 
@@ -227,7 +240,7 @@ export async function getUserSkillProgress(
   return pb
     .collection(Collections.USER_SKILL_PROGRESS)
     .getFullList<UserSkillProgressWithSkill>({
-      filter: `user_id = "${targetUserId}"`,
+      filter: filterEquals('user_id', targetUserId),
       expand: 'skill_id',
       sort: '-xp',
     });
@@ -254,7 +267,10 @@ export async function getUserSkillProgressForSkill(
   const progressRecords = await pb
     .collection(Collections.USER_SKILL_PROGRESS)
     .getFullList<UserSkillProgressWithSkill>({
-      filter: `user_id = "${targetUserId}" && skill_id = "${skillId}"`,
+      filter: filterAnd([
+        filterEquals('user_id', targetUserId),
+        filterEquals('skill_id', skillId),
+      ]),
       expand: 'skill_id',
     });
 
@@ -269,6 +285,7 @@ export async function getUserSkillProgressForSkill(
  * Get the most used skills across all submissions.
  *
  * This function aggregates submission skill tags to find the most commonly used skills.
+ * Uses pagination internally to handle large datasets efficiently.
  *
  * @param limit - Maximum number of skills to return (default: 10)
  * @returns Array of skills with usage counts, sorted by usage descending
@@ -276,19 +293,29 @@ export async function getUserSkillProgressForSkill(
 export async function getTopSkills(
   limit: number = 10
 ): Promise<SkillWithUsageCount[]> {
-  // Get all skills first
+  // Get all skills first (typically a small, bounded set)
   const skills = await listSkills();
 
-  // Get all skill tags to count usage
-  const allTags = await pb
-    .collection(Collections.SUBMISSION_SKILL_TAGS)
-    .getFullList<SubmissionSkillTag>();
-
-  // Build a map of skill_id -> count
+  // Build a map of skill_id -> count using pagination for scalability
   const usageMap = new Map<string, number>();
-  for (const tag of allTags) {
-    const currentCount = usageMap.get(tag.skill_id) ?? 0;
-    usageMap.set(tag.skill_id, currentCount + 1);
+  let page = 1;
+  const perPage = 500; // Process in batches
+
+  while (true) {
+    const result = await pb
+      .collection(Collections.SUBMISSION_SKILL_TAGS)
+      .getList<SubmissionSkillTag>(page, perPage);
+
+    for (const tag of result.items) {
+      const currentCount = usageMap.get(tag.skill_id) ?? 0;
+      usageMap.set(tag.skill_id, currentCount + 1);
+    }
+
+    // Break if we've fetched all pages
+    if (page >= result.totalPages) {
+      break;
+    }
+    page++;
   }
 
   // Combine skills with their usage counts

@@ -16,6 +16,7 @@ import type {
   ListResult,
 } from '@/lib/types';
 import { Collections } from '@/lib/types';
+import { filterEquals, filterAnd } from '@/lib/utils';
 
 // =============================================================================
 // Types
@@ -114,7 +115,7 @@ export async function getRetroSummary(
   try {
     return await pb
       .collection(Collections.SPRINT_RETRO_SUMMARIES)
-      .getFirstListItem<SprintRetroSummary>(`sprint_id = "${sprintId}"`);
+      .getFirstListItem<SprintRetroSummary>(filterEquals('sprint_id', sprintId));
   } catch (error) {
     // PocketBase throws when no record is found
     if (
@@ -167,7 +168,7 @@ export async function getRetroResources(
   const result = await pb
     .collection(Collections.SPRINT_RETRO_RESOURCES)
     .getFullList<SprintRetroResource>({
-      filter: `sprint_id = "${sprintId}"`,
+      filter: filterEquals('sprint_id', sprintId),
       sort: 'created',
     });
 
@@ -228,7 +229,7 @@ export async function getSprintAwards(sprintId: string): Promise<SprintAward[]> 
   const result = await pb
     .collection(Collections.SPRINT_AWARDS)
     .getFullList<SprintAward>({
-      filter: `sprint_id = "${sprintId}"`,
+      filter: filterEquals('sprint_id', sprintId),
       sort: 'created',
     });
 
@@ -247,7 +248,7 @@ export async function getSprintAwardsWithDetails(
   const result = await pb
     .collection(Collections.SPRINT_AWARDS)
     .getFullList<SprintAwardWithRelations>({
-      filter: `sprint_id = "${sprintId}"`,
+      filter: filterEquals('sprint_id', sprintId),
       expand: 'submission_id,user_id',
       sort: 'created',
     });
@@ -274,7 +275,7 @@ export async function getUserAwards(
   const result = await pb
     .collection(Collections.SPRINT_AWARDS)
     .getFullList<SprintAwardWithRelations>({
-      filter: `user_id = "${targetUserId}"`,
+      filter: filterEquals('user_id', targetUserId),
       expand: 'sprint_id,submission_id',
       sort: '-created',
     });
@@ -298,7 +299,10 @@ export async function getAwardByType(
     return await pb
       .collection(Collections.SPRINT_AWARDS)
       .getFirstListItem<SprintAward>(
-        `sprint_id = "${sprintId}" && award_type = "${awardType}"`
+        filterAnd([
+          filterEquals('sprint_id', sprintId),
+          filterEquals('award_type', awardType),
+        ])
       );
   } catch (error) {
     // PocketBase throws when no record is found
@@ -379,7 +383,7 @@ export async function getUserAwardsPaginated(
   return pb
     .collection(Collections.SPRINT_AWARDS)
     .getList<SprintAwardWithRelations>(page, perPage, {
-      filter: `user_id = "${userId}"`,
+      filter: filterEquals('user_id', userId),
       expand: 'sprint_id,submission_id',
       sort: '-created',
     });
@@ -400,7 +404,11 @@ export async function hasUserAward(
 ): Promise<boolean> {
   try {
     await pb.collection(Collections.SPRINT_AWARDS).getFirstListItem(
-      `sprint_id = "${sprintId}" && user_id = "${userId}" && award_type = "${awardType}"`
+      filterAnd([
+        filterEquals('sprint_id', sprintId),
+        filterEquals('user_id', userId),
+        filterEquals('award_type', awardType),
+      ])
     );
     return true;
   } catch {
@@ -447,7 +455,7 @@ export async function getUserAwardCount(userId: string): Promise<number> {
   const result = await pb
     .collection(Collections.SPRINT_AWARDS)
     .getList<SprintAward>(1, 1, {
-      filter: `user_id = "${userId}"`,
+      filter: filterEquals('user_id', userId),
     });
 
   return result.totalItems;

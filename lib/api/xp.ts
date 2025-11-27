@@ -9,6 +9,7 @@ import pb from '@/lib/pocketbase';
 import type { XPEvent, XPSourceType, UserXPSummary, User } from '@/lib/types';
 import { Collections } from '@/lib/types';
 import { getCurrentUser } from '@/lib/api/auth';
+import { filterEquals, filterAnd } from '@/lib/utils';
 
 // =============================================================================
 // Constants
@@ -98,7 +99,10 @@ export async function getXPEventsBySource(
   }
 
   const result = await pb.collection(Collections.XP_EVENTS).getFullList<XPEvent>({
-    filter: `user_id = "${targetUserId}" && source_type = "${sourceType}"`,
+    filter: filterAnd([
+      filterEquals('user_id', targetUserId),
+      filterEquals('source_type', sourceType),
+    ]),
     sort: '-created',
   });
 
@@ -123,14 +127,14 @@ export async function getUserXPEvents(
 
   if (limit !== undefined && limit > 0) {
     const result = await pb.collection(Collections.XP_EVENTS).getList<XPEvent>(1, limit, {
-      filter: `user_id = "${targetUserId}"`,
+      filter: filterEquals('user_id', targetUserId),
       sort: '-created',
     });
     return result.items;
   }
 
   return pb.collection(Collections.XP_EVENTS).getFullList<XPEvent>({
-    filter: `user_id = "${targetUserId}"`,
+    filter: filterEquals('user_id', targetUserId),
     sort: '-created',
   });
 }
@@ -155,7 +159,11 @@ export async function hasEarnedXPForSource(
   }
 
   const result = await pb.collection(Collections.XP_EVENTS).getList<XPEvent>(1, 1, {
-    filter: `user_id = "${targetUserId}" && source_type = "${sourceType}" && source_id = "${sourceId}"`,
+    filter: filterAnd([
+      filterEquals('user_id', targetUserId),
+      filterEquals('source_type', sourceType),
+      filterEquals('source_id', sourceId),
+    ]),
   });
 
   return result.totalItems > 0;
@@ -178,7 +186,7 @@ export async function getUserXPTotal(userId?: string): Promise<number> {
   }
 
   const events = await pb.collection(Collections.XP_EVENTS).getFullList<XPEvent>({
-    filter: `user_id = "${targetUserId}"`,
+    filter: filterEquals('user_id', targetUserId),
   });
 
   return events.reduce((total, event) => total + event.amount, 0);
@@ -201,7 +209,10 @@ export async function getUserXPBySprint(
   }
 
   const events = await pb.collection(Collections.XP_EVENTS).getFullList<XPEvent>({
-    filter: `user_id = "${targetUserId}" && sprint_id = "${sprintId}"`,
+    filter: filterAnd([
+      filterEquals('user_id', targetUserId),
+      filterEquals('sprint_id', sprintId),
+    ]),
   });
 
   return events.reduce((total, event) => total + event.amount, 0);
@@ -221,7 +232,7 @@ export async function getUserXPSummary(userId?: string): Promise<UserXPSummary> 
   }
 
   const events = await pb.collection(Collections.XP_EVENTS).getFullList<XPEvent>({
-    filter: `user_id = "${targetUserId}"`,
+    filter: filterEquals('user_id', targetUserId),
   });
 
   const xpBySource: Record<string, number> = {};
@@ -260,6 +271,7 @@ export async function getUserXPSummary(userId?: string): Promise<UserXPSummary> 
 
 /**
  * Get the global XP leaderboard (top users by total XP).
+ * Uses pagination internally to handle large datasets efficiently.
  *
  * @param limit - Maximum number of entries to return (default: 10)
  * @returns Array of leaderboard entries sorted by total XP descending
@@ -267,16 +279,26 @@ export async function getUserXPSummary(userId?: string): Promise<UserXPSummary> 
 export async function getXPLeaderboard(
   limit: number = 10
 ): Promise<XPLeaderboardEntry[]> {
-  // Fetch all XP events to aggregate by user
-  const events = await pb.collection(Collections.XP_EVENTS).getFullList<XPEvent>({
-    sort: '-created',
-  });
-
-  // Aggregate XP by user
+  // Aggregate XP by user using pagination for scalability
   const userXPMap = new Map<string, number>();
-  for (const event of events) {
-    const currentXP = userXPMap.get(event.user_id) ?? 0;
-    userXPMap.set(event.user_id, currentXP + event.amount);
+  let page = 1;
+  const perPage = 500; // Process in batches
+
+  while (true) {
+    const result = await pb.collection(Collections.XP_EVENTS).getList<XPEvent>(page, perPage, {
+      sort: '-created',
+    });
+
+    for (const event of result.items) {
+      const currentXP = userXPMap.get(event.user_id) ?? 0;
+      userXPMap.set(event.user_id, currentXP + event.amount);
+    }
+
+    // Break if we've fetched all pages
+    if (page >= result.totalPages) {
+      break;
+    }
+    page++;
   }
 
   // Sort users by XP and take top N
@@ -290,7 +312,7 @@ export async function getXPLeaderboard(
 
   // Fetch user details for the top users
   const userIds = sortedUsers.map(([userId]) => userId);
-  const userFilter = userIds.map((id) => `id = "${id}"`).join(' || ');
+  const userFilter = userIds.map((id) => filterEquals('id', id)).join(' || ');
   const users = await pb.collection(Collections.USERS).getFullList<User>({
     filter: userFilter,
   });
@@ -315,6 +337,7 @@ export async function getXPLeaderboard(
 
 /**
  * Get the XP leaderboard for a specific sprint.
+ * Uses pagination internally to handle large datasets efficiently.
  *
  * @param sprintId - The ID of the sprint
  * @param limit - Maximum number of entries to return (default: 10)
@@ -324,17 +347,27 @@ export async function getSprintXPLeaderboard(
   sprintId: string,
   limit: number = 10
 ): Promise<SprintXPLeaderboardEntry[]> {
-  // Fetch XP events for the specific sprint
-  const events = await pb.collection(Collections.XP_EVENTS).getFullList<XPEvent>({
-    filter: `sprint_id = "${sprintId}"`,
-    sort: '-created',
-  });
-
-  // Aggregate XP by user
+  // Aggregate XP by user using pagination for scalability
   const userXPMap = new Map<string, number>();
-  for (const event of events) {
-    const currentXP = userXPMap.get(event.user_id) ?? 0;
-    userXPMap.set(event.user_id, currentXP + event.amount);
+  let page = 1;
+  const perPage = 500; // Process in batches
+
+  while (true) {
+    const result = await pb.collection(Collections.XP_EVENTS).getList<XPEvent>(page, perPage, {
+      filter: filterEquals('sprint_id', sprintId),
+      sort: '-created',
+    });
+
+    for (const event of result.items) {
+      const currentXP = userXPMap.get(event.user_id) ?? 0;
+      userXPMap.set(event.user_id, currentXP + event.amount);
+    }
+
+    // Break if we've fetched all pages
+    if (page >= result.totalPages) {
+      break;
+    }
+    page++;
   }
 
   // Sort users by XP and take top N
@@ -348,7 +381,7 @@ export async function getSprintXPLeaderboard(
 
   // Fetch user details for the top users
   const userIds = sortedUsers.map(([userId]) => userId);
-  const userFilter = userIds.map((id) => `id = "${id}"`).join(' || ');
+  const userFilter = userIds.map((id) => filterEquals('id', id)).join(' || ');
   const users = await pb.collection(Collections.USERS).getFullList<User>({
     filter: userFilter,
   });
