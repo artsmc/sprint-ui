@@ -214,6 +214,7 @@ export {
   getUserXPTotal,
   getUserXPBySprint,
   getUserXPEvents,
+  getUserXPSummary,
   getXPEventsBySource,
   getXPLeaderboard,
   getSprintXPLeaderboard,
