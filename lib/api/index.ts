@@ -321,3 +321,18 @@ export * as badges from './badges';
 export * as retrospectives from './retrospectives';
 export * as realtime from './realtime';
 export * as challengeHub from './challenge-hub';
+export * as sprintTasks from './sprint-tasks';
+
+// =============================================================================
+// Sprint Tasks Service
+// =============================================================================
+
+export {
+  getSprintTaskCompletion,
+  getDefaultSprintTasks,
+} from './sprint-tasks';
+
+export type {
+  TaskItem,
+  SprintTaskCompletion,
+} from './sprint-tasks';

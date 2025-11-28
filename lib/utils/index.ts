@@ -39,3 +39,12 @@ export {
   getUserTitle,
   formatXPProgress,
 } from './xp-calculations';
+
+export { cn } from './classnames';
+
+export {
+  calculateSprintStreak,
+  calculateFeedbackStreak,
+  getUserStreaks,
+  type UserStreaks,
+} from './streak-calculations';
