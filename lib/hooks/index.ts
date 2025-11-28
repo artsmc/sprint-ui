@@ -36,3 +36,54 @@ export type {
   UseUserProfileSidebarOptions,
   UserProfileSidebarError,
 } from './use-user-profile-sidebar';
+
+// Challenge hub hook
+export {
+  useChallengeHub,
+  challengeHubKeys,
+  SPRINT_TASKS,
+  MAX_SPRINT_TASK_XP,
+} from './use-challenge-hub';
+export type {
+  UseChallengeHubResult,
+  UseChallengeHubOptions,
+  ChallengeHubError,
+  ChallengeHubFullData,
+  TaskDefinition,
+  TaskWithStatus,
+  SprintTaskProgress,
+} from './use-challenge-hub';
+
+// Last sprint retrospective hook
+export {
+  useLastSprintRetrospective,
+  lastSprintRetrospectiveKeys,
+} from './use-last-sprint-retrospective';
+export type {
+  UseLastSprintRetrospectiveResult,
+  UseLastSprintRetrospectiveOptions,
+  LastSprintRetrospectiveError,
+} from './use-last-sprint-retrospective';
+
+// Current sprint hook
+export {
+  useCurrentSprint,
+  currentSprintKeys,
+} from './use-current-sprint';
+export type {
+  UseCurrentSprintResult,
+  UseCurrentSprintOptions,
+  CurrentSprintError,
+  CurrentSprintData,
+} from './use-current-sprint';
+
+// Start sprint hook
+export {
+  useStartSprint,
+  startSprintKeys,
+} from './use-start-sprint';
+export type {
+  UseStartSprintResult,
+  UseStartSprintOptions,
+  StartSprintError,
+} from './use-start-sprint';

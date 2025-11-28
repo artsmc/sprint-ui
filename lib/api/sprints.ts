@@ -13,9 +13,28 @@ import type {
   Sprint,
   SprintStatus,
   SprintWithChallenge,
+  SprintWithRelations,
   ListResult,
+  User,
 } from '@/lib/types';
 import { Collections } from '@/lib/types';
+
+// =============================================================================
+// Utility Functions
+// =============================================================================
+
+/**
+ * Validate PocketBase record ID format.
+ * PocketBase IDs are 15-character alphanumeric strings.
+ *
+ * @param id - The ID to validate
+ * @throws Error if the ID format is invalid
+ */
+function validateRecordId(id: string): void {
+  if (!/^[a-zA-Z0-9]{15}$/.test(id)) {
+    throw new Error(`Invalid record ID format: ${id}`);
+  }
+}
 
 // =============================================================================
 // Types
@@ -91,7 +110,7 @@ export async function listSprints(
 ): Promise<ListResult<Sprint>> {
   return pb.collection(Collections.SPRINTS).getList<Sprint>(page, perPage, {
     filter,
-    sort: '-created',
+    sort: '-sprint_number',
   });
 }
 
@@ -146,7 +165,7 @@ export async function getSprintsByStatus(
 ): Promise<ListResult<Sprint>> {
   return pb.collection(Collections.SPRINTS).getList<Sprint>(page, perPage, {
     filter: `status='${status}'`,
-    sort: '-created',
+    sort: '-sprint_number',
   });
 }
 
@@ -167,7 +186,7 @@ export async function getActiveSprint(): Promise<Sprint | null> {
     return await pb
       .collection(Collections.SPRINTS)
       .getFirstListItem<Sprint>("status='active'", {
-        sort: '-created',
+        sort: '-sprint_number',
       });
   } catch {
     // getFirstListItem throws if no record found
@@ -194,7 +213,7 @@ export async function getCurrentSprint(): Promise<Sprint | null> {
       .getFirstListItem<Sprint>(
         "status='active' || status='voting' || status='retro'",
         {
-          sort: '-created',
+          sort: '-sprint_number',
         }
       );
   } catch {
@@ -223,21 +242,74 @@ export async function getCurrentSprint(): Promise<Sprint | null> {
  * });
  */
 export async function createSprint(data: CreateSprintData): Promise<Sprint> {
-  const sprintData = {
-    sprint_number: data.sprint_number,
-    name: data.name,
-    challenge_id: data.challenge_id,
-    status: data.status || 'scheduled',
-    start_at: data.start_at || null,
-    end_at: data.end_at || null,
-    voting_end_at: data.voting_end_at || null,
-    retro_day: data.retro_day || null,
-    duration_days: data.duration_days || 14,
-    started_by_id: null,
-    ended_by_id: null,
-  };
+  try {
+    // Validate challenge_id format before database operation
+    validateRecordId(data.challenge_id);
 
-  return pb.collection(Collections.SPRINTS).create<Sprint>(sprintData);
+    // Get current authenticated user ID
+    const currentUserId = pb.authStore.model?.id || null;
+    console.log('Current user ID:', currentUserId);
+    console.log('Auth store:', pb.authStore);
+
+    // Set started_by_id if status is active and user is authenticated
+    const startedById = data.status === 'active' && currentUserId ? currentUserId : null;
+
+    // Build sprint data, omitting null fields to avoid potential issues
+    const sprintData: Record<string, any> = {
+      sprint_number: data.sprint_number,
+      name: data.name,
+      challenge_id: data.challenge_id,
+      status: data.status || 'scheduled',
+      duration_days: data.duration_days || 14,
+    };
+
+    // Only add optional fields if they have values
+    if (data.start_at) sprintData.start_at = data.start_at;
+    if (data.end_at) sprintData.end_at = data.end_at;
+    if (data.voting_end_at) sprintData.voting_end_at = data.voting_end_at;
+    if (data.retro_day) sprintData.retro_day = data.retro_day;
+    if (startedById) sprintData.started_by_id = startedById;
+
+    console.log('Creating sprint with data:', sprintData);
+
+    // Check if sprint_number already exists (to provide better error message)
+    const existing = await pb.collection(Collections.SPRINTS).getFullList({
+      filter: `sprint_number=${sprintData.sprint_number}`,
+      fields: 'id,sprint_number,name',
+    });
+    if (existing.length > 0) {
+      console.warn('Sprint number already exists:', existing);
+      throw new Error(`Sprint #${sprintData.sprint_number} already exists. Please refresh and try again.`);
+    }
+
+    // Try to get collection info for debugging
+    console.log('Attempting to create sprint in collection:', Collections.SPRINTS);
+
+    const result = await pb.collection(Collections.SPRINTS).create<Sprint>(sprintData);
+    console.log('Sprint created successfully:', result);
+    return result;
+  } catch (error) {
+    console.error('Failed to create sprint:', error);
+    console.error('Sprint data:', data);
+
+    // PocketBase returns validation errors in error.data.data format
+    if (error && typeof error === 'object' && 'data' in error) {
+      const pbError = error as any;
+      console.error('PocketBase error details:', pbError.data);
+
+      if (pbError.data?.data) {
+        // Format validation errors
+        const validationErrors = Object.entries(pbError.data.data)
+          .map(([field, error]) => `${field}: ${(error as any).message}`)
+          .join(', ');
+        throw new Error(`Validation failed: ${validationErrors}`);
+      }
+    }
+
+    throw new Error(
+      `Failed to create sprint: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+  }
 }
 
 /**
@@ -544,4 +616,297 @@ export function getStatusLabel(status: SprintStatus): string {
   };
 
   return labels[status];
+}
+
+// =============================================================================
+// Sprint Statistics Functions
+// =============================================================================
+
+/**
+ * Get sprint statistics including submission counts and participation rate.
+ *
+ * @param sprintId - The sprint ID to get statistics for
+ * @returns Sprint statistics with submission and participation data
+ *
+ * @example
+ * const stats = await getSprintStatistics('abc123');
+ * console.log(`Participation rate: ${stats.participationRate}%`);
+ */
+export async function getSprintStatistics(sprintId: string): Promise<{
+  submissionsCount: number;
+  yetToSubmitCount: number;
+  participationRate: number;
+  totalParticipants: number;
+}> {
+  // Validate sprintId to prevent filter injection
+  validateRecordId(sprintId);
+
+  // Get total participants for this sprint
+  const participants = await pb
+    .collection(Collections.SPRINT_PARTICIPANTS)
+    .getFullList({
+      filter: `sprint_id='${sprintId}'`,
+    });
+
+  const totalParticipants = participants.length;
+
+  // Get submissions for this sprint
+  const submissions = await pb
+    .collection(Collections.SUBMISSIONS)
+    .getFullList({
+      filter: `sprint_id='${sprintId}' && status='submitted'`,
+    });
+
+  const submissionsCount = submissions.length;
+  const yetToSubmitCount = Math.max(0, totalParticipants - submissionsCount);
+  const participationRate =
+    totalParticipants > 0
+      ? Math.round((submissionsCount / totalParticipants) * 100)
+      : 0;
+
+  return {
+    submissionsCount,
+    yetToSubmitCount,
+    participationRate,
+    totalParticipants,
+  };
+}
+
+/**
+ * Extend sprint end date by specified days.
+ * Requires admin authentication.
+ *
+ * @param sprintId - The sprint ID to extend
+ * @param extensionDays - Number of days to extend the sprint by
+ * @returns The updated sprint record
+ *
+ * @example
+ * const sprint = await extendSprint('abc123', 3);
+ * console.log('Sprint extended by 3 days');
+ */
+export async function extendSprint(
+  sprintId: string,
+  extensionDays: number
+): Promise<Sprint> {
+  const sprint = await getSprint(sprintId);
+
+  if (!sprint.end_at) {
+    throw new Error('Cannot extend sprint: no end date set');
+  }
+
+  const currentEndDate = new Date(sprint.end_at);
+  const newEndDate = new Date(
+    currentEndDate.getTime() + extensionDays * 24 * 60 * 60 * 1000
+  );
+
+  return pb.collection(Collections.SPRINTS).update<Sprint>(sprintId, {
+    end_at: newEndDate.toISOString(),
+    duration_days: sprint.duration_days + extensionDays,
+  });
+}
+
+/**
+ * End the current sprint (admin only).
+ * Transitions sprint status to appropriate next phase.
+ *
+ * @param sprintId - The sprint ID to end
+ * @param userId - Optional ID of the user ending the sprint
+ * @returns The updated sprint record
+ *
+ * @example
+ * const sprint = await endSprint('abc123', 'user456');
+ */
+export async function endSprint(
+  sprintId: string,
+  userId?: string
+): Promise<Sprint> {
+  const sprint = await getSprint(sprintId);
+
+  // Transition based on current status
+  if (sprint.status === 'active') {
+    return transitionToVoting(sprintId);
+  } else if (sprint.status === 'voting') {
+    return transitionToRetro(sprintId);
+  } else if (sprint.status === 'retro') {
+    return completeSprint(sprintId, userId);
+  }
+
+  throw new Error(
+    `Cannot end sprint: current status is '${sprint.status}'`
+  );
+}
+
+/**
+ * Get last update metadata for a sprint.
+ *
+ * @param sprintId - The sprint ID to get metadata for
+ * @returns Last update information or null if no updates
+ *
+ * @example
+ * const lastUpdate = await getSprintLastUpdate('abc123');
+ * if (lastUpdate) {
+ *   console.log(`Updated by ${lastUpdate.updatedBy?.name}`);
+ * }
+ */
+export async function getSprintLastUpdate(sprintId: string): Promise<{
+  updatedBy: User | null;
+  updatedAt: string;
+} | null> {
+  const sprint = await pb
+    .collection(Collections.SPRINTS)
+    .getOne<SprintWithRelations>(sprintId, {
+      expand: 'ended_by_id,started_by_id',
+    });
+
+  if (!sprint) {
+    return null;
+  }
+
+  // Determine who last updated the sprint
+  const updatedBy =
+    sprint.expand?.ended_by_id ||
+    sprint.expand?.started_by_id ||
+    null;
+
+  return {
+    updatedBy,
+    updatedAt: sprint.updated,
+  };
+}
+
+// =============================================================================
+// Sprint Date Validation Functions
+// =============================================================================
+
+/**
+ * Validation result for sprint date checks.
+ */
+export interface ValidationResult {
+  valid: boolean;
+  error?: string;
+  conflictingSprint?: Sprint;
+}
+
+/**
+ * Get sprints that overlap with the specified date range.
+ * Only checks sprints with status: active, scheduled, voting, or retro.
+ *
+ * Overlap detection algorithm: (start1 <= end2) AND (end1 >= start2)
+ *
+ * @param startDate - Start date of the range to check
+ * @param endDate - End date of the range to check
+ * @returns Array of overlapping sprints
+ *
+ * @example
+ * const overlaps = await getOverlappingSprints(
+ *   new Date('2025-02-01'),
+ *   new Date('2025-02-15')
+ * );
+ */
+export async function getOverlappingSprints(
+  startDate: Date,
+  endDate: Date
+): Promise<Sprint[]> {
+  // Validate that dates are valid Date objects
+  if (!(startDate instanceof Date) || isNaN(startDate.getTime())) {
+    throw new Error('Invalid start date');
+  }
+  if (!(endDate instanceof Date) || isNaN(endDate.getTime())) {
+    throw new Error('Invalid end date');
+  }
+
+  const startISO = startDate.toISOString();
+  const endISO = endDate.toISOString();
+
+  // Query sprints with status that should not overlap
+  const relevantStatuses: SprintStatus[] = ['active', 'scheduled', 'voting', 'retro'];
+  const statusFilter = relevantStatuses.map((s) => `status='${s}'`).join(' || ');
+
+  try {
+    const sprints = await pb
+      .collection(Collections.SPRINTS)
+      .getFullList<Sprint>({
+        filter: `(${statusFilter}) && start_at != null && end_at != null`,
+      });
+
+    // Filter sprints that overlap with the specified date range
+    // Overlap condition: (start1 <= end2) AND (end1 >= start2)
+    const overlappingSprints = sprints.filter((sprint) => {
+      if (!sprint.start_at || !sprint.end_at) {
+        return false;
+      }
+
+      const sprintStart = new Date(sprint.start_at);
+      const sprintEnd = new Date(sprint.end_at);
+
+      // Check overlap: (sprintStart <= endDate) AND (sprintEnd >= startDate)
+      return sprintStart <= endDate && sprintEnd >= startDate;
+    });
+
+    return overlappingSprints;
+  } catch (error) {
+    throw new Error(
+      `Failed to check for overlapping sprints: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+  }
+}
+
+/**
+ * Validate sprint dates to ensure they don't overlap with existing sprints.
+ * Checks that:
+ * - End date is after start date
+ * - No overlap with active, scheduled, voting, or retro sprints
+ *
+ * @param startDate - Proposed start date
+ * @param endDate - Proposed end date
+ * @returns Validation result with error details if invalid
+ *
+ * @example
+ * const result = await validateSprintDates(
+ *   new Date('2025-02-01'),
+ *   new Date('2025-02-15')
+ * );
+ * if (!result.valid) {
+ *   console.error(result.error);
+ * }
+ */
+export async function validateSprintDates(
+  startDate: Date,
+  endDate: Date
+): Promise<ValidationResult> {
+  // Validate that end date is after start date
+  if (endDate <= startDate) {
+    return {
+      valid: false,
+      error: 'End date must be after start date',
+    };
+  }
+
+  // Check for overlapping sprints
+  const overlappingSprints = await getOverlappingSprints(startDate, endDate);
+
+  if (overlappingSprints.length > 0) {
+    const conflictingSprint = overlappingSprints[0];
+    const formatDate = (date: string) => {
+      return new Date(date).toISOString().split('T')[0];
+    };
+
+    const statusLabel = getStatusLabel(conflictingSprint.status);
+    const startStr = conflictingSprint.start_at
+      ? formatDate(conflictingSprint.start_at)
+      : 'N/A';
+    const endStr = conflictingSprint.end_at
+      ? formatDate(conflictingSprint.end_at)
+      : 'N/A';
+
+    return {
+      valid: false,
+      error: `Sprint dates overlap with ${conflictingSprint.name} (${statusLabel.toLowerCase()} from ${startStr} to ${endStr})`,
+      conflictingSprint,
+    };
+  }
+
+  return {
+    valid: true,
+  };
 }

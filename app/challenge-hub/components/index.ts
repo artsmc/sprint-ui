@@ -62,6 +62,9 @@ export type { SprintHighlightsSectionProps } from './sprint-highlights-section';
 export { RetrospectiveSummary } from './retrospective-summary';
 export type { RetrospectiveSummaryProps } from './retrospective-summary';
 
+export { LastSprintRetrospective } from './last-sprint-retrospective';
+export type { LastSprintRetrospectiveProps } from './last-sprint-retrospective';
+
 // =============================================================================
 // Header Components
 // =============================================================================
@@ -75,3 +78,17 @@ export type { ChallengeHubHeaderProps } from './challenge-hub-header';
 
 export { UserProfileSidebar } from './user-profile-sidebar';
 export type { UserProfileSidebarProps } from './user-profile-sidebar';
+
+// =============================================================================
+// Main Content Components
+// =============================================================================
+
+export { ChallengeHubMain } from './challenge-hub-main';
+export type { ChallengeHubMainProps } from './challenge-hub-main';
+
+// =============================================================================
+// Sprint Status Components
+// =============================================================================
+
+export { CurrentSprintStatus } from './current-sprint-status';
+export type { CurrentSprintStatusProps } from './current-sprint-status';

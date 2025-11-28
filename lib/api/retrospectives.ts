@@ -7,6 +7,8 @@
 
 import pb from '@/lib/pocketbase';
 import type {
+  Sprint,
+  Challenge,
   SprintRetroSummary,
   SprintRetroResource,
   ResourceType,
@@ -459,4 +461,64 @@ export async function getUserAwardCount(userId: string): Promise<number> {
     });
 
   return result.totalItems;
+}
+
+// =============================================================================
+// Retrospective Summary Aggregation
+// =============================================================================
+
+/**
+ * Data structure for last sprint retrospective display.
+ */
+export interface LastSprintRetrospectiveData {
+  sprint: Sprint;
+  challenge: Challenge;
+  summary: SprintRetroSummary;
+}
+
+/**
+ * Get the retrospective data for the most recent completed sprint.
+ * Combines sprint, challenge, and retro summary data for display.
+ *
+ * @returns The retrospective data or null if no completed sprint exists
+ *
+ * @example
+ * const retroData = await getLastSprintRetrospective();
+ * if (retroData) {
+ *   console.log(retroData.summary.submissions_count);
+ *   console.log(retroData.challenge.title);
+ * }
+ */
+export async function getLastSprintRetrospective(): Promise<LastSprintRetrospectiveData | null> {
+  // Import here to avoid circular dependency
+  const { getSprintsByStatus, getSprintWithChallenge } = await import('@/lib/api/sprints');
+
+  // Get the most recent completed sprint
+  const completedSprints = await getSprintsByStatus('completed', 1, 1);
+
+  if (completedSprints.items.length === 0) {
+    return null;
+  }
+
+  const sprint = completedSprints.items[0];
+
+  // Get the retro summary for this sprint
+  const summary = await getRetroSummary(sprint.id);
+
+  if (!summary) {
+    return null;
+  }
+
+  // Get sprint with expanded challenge data
+  const sprintWithChallenge = await getSprintWithChallenge(sprint.id);
+
+  if (!sprintWithChallenge.expand?.challenge_id) {
+    throw new Error('Challenge data not found for sprint');
+  }
+
+  return {
+    sprint,
+    challenge: sprintWithChallenge.expand.challenge_id,
+    summary,
+  };
 }

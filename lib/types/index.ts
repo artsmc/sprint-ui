@@ -8,6 +8,8 @@
  * import { Collections } from '@/lib/types';
  */
 
+import type { User } from './pocketbase';
+
 // Base types and collection interfaces
 export type {
   BaseRecord,
@@ -64,3 +66,29 @@ export type {
   LeaderboardEntry,
   ListResult,
 } from './expanded';
+
+/**
+ * Sprint statistics for monitoring sprint participation and progress.
+ * Used to display real-time sprint metrics in the Current Sprint Status component.
+ */
+export interface SprintStatistics {
+  /** Number of participants who have submitted their designs */
+  submissionsCount: number;
+  /** Number of participants who haven't submitted yet */
+  yetToSubmitCount: number;
+  /** Percentage of participants who have submitted (0-100) */
+  participationRate: number;
+  /** Total number of participants in the sprint */
+  totalParticipants: number;
+}
+
+/**
+ * Metadata about the last update to a sprint.
+ * Tracks who last modified the sprint and when for audit purposes.
+ */
+export interface SprintLastUpdate {
+  /** User who last updated the sprint (started or ended it) */
+  updatedBy: User | null;
+  /** ISO 8601 timestamp of the last update */
+  updatedAt: string;
+}

@@ -21,7 +21,7 @@ import type {
   SprintAwardWithRelations,
 } from '@/lib/types';
 import { Collections } from '@/lib/types';
-import { filterEquals, filterAnd } from '@/lib/utils';
+import { filterEquals } from '@/lib/utils';
 
 // =============================================================================
 // Types
@@ -238,7 +238,7 @@ export async function getUserProfileSidebarData(
       const lastSprint = await pb
         .collection(Collections.SPRINTS)
         .getFirstListItem<Sprint>("status='completed'", {
-          sort: '-created',
+          sort: '-sprint_number',
         });
       if (lastSprint) {
         sprintAwards = await getSprintAwardsWithDetails(lastSprint.id);

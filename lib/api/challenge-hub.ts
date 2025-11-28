@@ -320,7 +320,7 @@ export async function getLastCompletedSprintAwards(): Promise<SprintAwardWithRel
     const lastSprint = await pb
       .collection(Collections.SPRINTS)
       .getFirstListItem<Sprint>("status='completed'", {
-        sort: '-created',
+        sort: '-sprint_number',
       });
 
     if (!lastSprint) {
@@ -375,7 +375,7 @@ export async function getLastCompletedSprintRetro(): Promise<SprintRetroSummary 
     const lastSprint = await pb
       .collection(Collections.SPRINTS)
       .getFirstListItem<Sprint>("status='completed'", {
-        sort: '-created',
+        sort: '-sprint_number',
       });
 
     if (!lastSprint) {
@@ -440,7 +440,7 @@ export async function getDisplaySprint(): Promise<Sprint | null> {
     return await pb
       .collection(Collections.SPRINTS)
       .getFirstListItem<Sprint>("status='completed'", {
-        sort: '-created',
+        sort: '-sprint_number',
       });
   } catch {
     return null;

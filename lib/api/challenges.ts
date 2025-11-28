@@ -298,3 +298,85 @@ export async function isChallengeNumberAvailable(
     return true; // Challenge doesn't exist, number is available
   }
 }
+
+// =============================================================================
+// Sprint Challenge Availability Functions
+// =============================================================================
+
+/**
+ * Get challenges that have NOT been used in sprints during the specified calendar year.
+ * This allows challenges to be reused across different years.
+ *
+ * @param year - The calendar year to check (defaults to current year)
+ * @returns Array of challenges not used in the specified year
+ *
+ * @example
+ * // Get challenges available for 2025
+ * const available = await getAvailableChallenges(2025);
+ *
+ * @example
+ * // Get challenges available for current year
+ * const available = await getAvailableChallenges();
+ */
+export async function getAvailableChallenges(year?: number): Promise<Challenge[]> {
+  const targetYear = year ?? new Date().getFullYear();
+
+  try {
+    // Get all sprints from the target year
+    // Filter: YEAR(start_at) = targetYear
+    const startOfYear = `${targetYear}-01-01 00:00:00`;
+    const endOfYear = `${targetYear}-12-31 23:59:59`;
+
+    const sprintsInYear = await pb
+      .collection(Collections.SPRINTS)
+      .getFullList({
+        filter: `start_at >= "${startOfYear}" && start_at <= "${endOfYear}"`,
+      });
+
+    // Extract unique challenge IDs used in this year
+    // RecordModel has dynamic properties, so we access challenge_id directly
+    const usedChallengeIds = new Set(
+      sprintsInYear.map((sprint) => (sprint as any).challenge_id as string)
+    );
+
+    // Get all challenges
+    const allChallenges = await getAllChallenges();
+
+    // Filter out challenges that have been used
+    const availableChallenges = allChallenges.filter(
+      (challenge) => !usedChallengeIds.has(challenge.id)
+    );
+
+    return availableChallenges;
+  } catch (error) {
+    throw new Error(
+      `Failed to fetch available challenges: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+  }
+}
+
+/**
+ * Get a random challenge from the available pool (not used in specified year).
+ *
+ * @param year - The calendar year to check (defaults to current year)
+ * @returns A randomly selected available challenge
+ * @throws Error if no challenges are available for the specified year
+ *
+ * @example
+ * const randomChallenge = await getRandomAvailableChallenge(2025);
+ */
+export async function getRandomAvailableChallenge(year?: number): Promise<Challenge> {
+  const availableChallenges = await getAvailableChallenges(year);
+
+  if (availableChallenges.length === 0) {
+    const targetYear = year ?? new Date().getFullYear();
+    throw new Error(
+      `No available challenges for ${targetYear}. All challenges have been used this year.`
+    );
+  }
+
+  // Generate random index
+  const randomIndex = Math.floor(Math.random() * availableChallenges.length);
+
+  return availableChallenges[randomIndex];
+}
