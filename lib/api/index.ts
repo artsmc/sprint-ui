@@ -287,6 +287,23 @@ export {
 export type { SubscriptionCallback, SubscriptionAction } from './realtime';
 
 // =============================================================================
+// Challenge Hub Service
+// =============================================================================
+
+export {
+  getChallengeHubData,
+  getLastCompletedSprintAwards,
+  getLastCompletedSprintRetro,
+  getDisplaySprint,
+  hasDisplayableContent,
+} from './challenge-hub';
+
+export type {
+  ChallengeHubData,
+  ChallengeHubOptions,
+} from './challenge-hub';
+
+// =============================================================================
 // Namespace Exports
 // =============================================================================
 
@@ -303,3 +320,4 @@ export * as xp from './xp';
 export * as badges from './badges';
 export * as retrospectives from './retrospectives';
 export * as realtime from './realtime';
+export * as challengeHub from './challenge-hub';
