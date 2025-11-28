@@ -28,3 +28,11 @@ export type {
   JoinSprintError,
   UseJoinSprintResult,
 } from './use-join-sprint';
+
+// User profile sidebar hook
+export { useUserProfileSidebar, userProfileSidebarKeys } from './use-user-profile-sidebar';
+export type {
+  UseUserProfileSidebarResult,
+  UseUserProfileSidebarOptions,
+  UserProfileSidebarError,
+} from './use-user-profile-sidebar';

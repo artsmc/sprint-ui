@@ -65,6 +65,17 @@ export async function login(data: LoginData): Promise<AuthResponse> {
     .collection(Collections.USERS)
     .authWithPassword<User>(data.email, data.password);
 
+  // Set auth cookie for server-side access
+  // The cookie is HttpOnly: false so it can be read by client JS,
+  // and SameSite: Lax for CSRF protection
+  if (typeof document !== 'undefined') {
+    document.cookie = pb.authStore.exportToCookie({
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Lax',
+    });
+  }
+
   return {
     token: authData.token,
     record: authData.record,
@@ -73,10 +84,15 @@ export async function login(data: LoginData): Promise<AuthResponse> {
 
 /**
  * Logout the current user.
- * Clears the auth store.
+ * Clears the auth store and cookie.
  */
 export function logout(): void {
   pb.authStore.clear();
+
+  // Clear auth cookie
+  if (typeof document !== 'undefined') {
+    document.cookie = 'pb_auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+  }
 }
 
 /**

@@ -88,8 +88,8 @@ export function useRegister() {
       // 4. Clear form persistence (name/email from sessionStorage)
       clearForm();
 
-      // 5. Redirect to dashboard
-      router.push('/dashboard');
+      // 5. Redirect to challenge hub
+      router.push('/challenge-hub');
     },
   });
 }

@@ -68,3 +68,10 @@ export type { RetrospectiveSummaryProps } from './retrospective-summary';
 
 export { ChallengeHubHeader } from './challenge-hub-header';
 export type { ChallengeHubHeaderProps } from './challenge-hub-header';
+
+// =============================================================================
+// Sidebar Components
+// =============================================================================
+
+export { UserProfileSidebar } from './user-profile-sidebar';
+export type { UserProfileSidebarProps } from './user-profile-sidebar';
