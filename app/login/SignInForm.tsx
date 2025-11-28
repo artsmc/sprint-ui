@@ -147,7 +147,15 @@ export default function SignInForm() {
             title="Account created successfully"
             description="Please sign in with your new account."
             className="mb-6"
-            onDismiss={() => setShowRegistrationToast(false)}
+            actions={
+              <button
+                type="button"
+                onClick={() => setShowRegistrationToast(false)}
+                className="text-success-700 hover:text-success-800 text-sm font-medium"
+              >
+                Dismiss
+              </button>
+            }
           />
         )}
 

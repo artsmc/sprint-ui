@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Metadata } from 'next';
 import SignInForm from './SignInForm';
 import MarketingPanel from './MarketingPanel';
@@ -17,7 +18,9 @@ export default function LoginPage() {
 
       {/* SignIn Form - Full width on mobile, half width on large screens */}
       <div className="flex w-full items-center justify-center lg:w-1/2">
-        <SignInForm />
+        <Suspense fallback={<div className="animate-pulse">Loading...</div>}>
+          <SignInForm />
+        </Suspense>
       </div>
     </div>
   );

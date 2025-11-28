@@ -1,5 +1,5 @@
 import { FeatherZap, FeatherUsers, FeatherTrendingUp } from '@subframe/core';
-import IconWithBackground from '@/ui/components/IconWithBackground';
+import { IconWithBackground } from '@/app/ui/components/IconWithBackground';
 
 export default function MarketingPanel() {
   return (
@@ -20,9 +20,11 @@ export default function MarketingPanel() {
           {/* Value Prop 1 */}
           <div className="flex gap-4">
             <div className="flex-shrink-0">
-              <IconWithBackground variant="brand" size="medium">
-                <FeatherZap className="text-brand-600" />
-              </IconWithBackground>
+              <IconWithBackground
+                variant="brand"
+                size="medium"
+                icon={<FeatherZap />}
+              />
             </div>
             <div className="space-y-1">
               <h3 className="text-body-bold font-body-bold text-default-font">
@@ -37,9 +39,11 @@ export default function MarketingPanel() {
           {/* Value Prop 2 */}
           <div className="flex gap-4">
             <div className="flex-shrink-0">
-              <IconWithBackground variant="brand" size="medium">
-                <FeatherUsers className="text-brand-600" />
-              </IconWithBackground>
+              <IconWithBackground
+                variant="brand"
+                size="medium"
+                icon={<FeatherUsers />}
+              />
             </div>
             <div className="space-y-1">
               <h3 className="text-body-bold font-body-bold text-default-font">
@@ -54,9 +58,11 @@ export default function MarketingPanel() {
           {/* Value Prop 3 */}
           <div className="flex gap-4">
             <div className="flex-shrink-0">
-              <IconWithBackground variant="brand" size="medium">
-                <FeatherTrendingUp className="text-brand-600" />
-              </IconWithBackground>
+              <IconWithBackground
+                variant="brand"
+                size="medium"
+                icon={<FeatherTrendingUp />}
+              />
             </div>
             <div className="space-y-1">
               <h3 className="text-body-bold font-body-bold text-default-font">
