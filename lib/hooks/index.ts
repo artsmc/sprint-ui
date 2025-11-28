@@ -10,6 +10,9 @@
 export { useRegister } from './useRegister';
 export type { RegisterInput, RegisterResult } from './useRegister';
 
+export { useLogin } from './useLogin';
+export type { LoginInput, LoginResult, LoginError } from './useLogin';
+
 // Countdown timer hook
 export { useCountdown, formatCountdownTime, getCountdownUrgencyColor } from './use-countdown';
 export type {

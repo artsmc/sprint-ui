@@ -47,3 +47,36 @@ export function validateForm(name: string, email: string, password: string): For
 
   return errors;
 }
+
+export interface LoginFormErrors {
+  email?: string;
+  password?: string;
+}
+
+/**
+ * Validates login form fields.
+ *
+ * Unlike registration, login validation only checks for presence and basic format.
+ * Password strength is not validated since it was already enforced during registration.
+ *
+ * @param email - User's email address
+ * @param password - User's password
+ * @returns Object containing error messages for invalid fields
+ */
+export function validateLoginForm(email: string, password: string): LoginFormErrors {
+  const errors: LoginFormErrors = {};
+
+  // Email validation
+  if (!email.trim()) {
+    errors.email = 'Email is required';
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errors.email = 'Invalid email address';
+  }
+
+  // Password validation - only check if present
+  if (!password) {
+    errors.password = 'Password is required';
+  }
+
+  return errors;
+}
