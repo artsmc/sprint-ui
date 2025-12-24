@@ -247,3 +247,130 @@ Sprint created successfully: {
  ✓ Compiled in 53ms
  ✓ Compiled in 98ms
  ✓ Compiled in 70ms
+ GET /challenge-hub 200 in 161ms (compile: 106ms, render: 55ms)
+ GET /sprints/l1hyzx9qwomvcdz/submit 404 in 331ms (compile: 314ms, render: 17ms)
+ GET /sprints/l1hyzx9qwomvcdz/submit 404 in 91ms (compile: 5ms, render: 86ms)
+ GET /challenge-hub 200 in 133ms (compile: 3ms, render: 129ms)
+ GET /my-submissions 200 in 78ms (compile: 12ms, render: 66ms)
+ GET /my-submissions 200 in 66ms (compile: 5ms, render: 61ms)
+ GET /upload 200 in 65ms (compile: 14ms, render: 51ms)
+ ✓ Compiled in 81ms
+ ✓ Compiled in 64ms
+ ✓ Compiled in 87ms
+ GET /upload 200 in 155ms (compile: 121ms, render: 34ms)
+ GET /challenge-hub 200 in 623ms (compile: 215ms, render: 409ms)
+ GET /challenge-hub 200 in 86ms (compile: 4ms, render: 83ms)
+ GET /sprint-control 200 in 295ms (compile: 110ms, render: 185ms)
+ ✓ Compiled in 108ms
+ GET /challenge-hub 200 in 75ms (compile: 10ms, render: 65ms)
+ GET /my-submissions 200 in 62ms (compile: 8ms, render: 54ms)
+ ⨯ ./app/upload/page.tsx:8:1
+Module not found: Can't resolve '@/ui/components/CodePenEmbed'
+[0m [90m  6 |[39m [36mimport[39m { [33mLinkButton[39m } [36mfrom[39m [32m"@/ui/components/LinkButton"[39m[33m;[39m
+ [90m  7 |[39m [36mimport[39m { [33mTextField[39m } [36mfrom[39m [32m"@/ui/components/TextField"[39m[33m;[39m
+[31m[1m>[22m[39m[90m  8 |[39m [36mimport[39m { [33mCodePenEmbed[39m } [36mfrom[39m [32m"@/ui/components/CodePenEmbed"[39m[33m;[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m  9 |[39m [36mimport[39m {
+ [90m 10 |[39m   [33mFeatherArrowLeft[39m[33m,[39m
+ [90m 11 |[39m   [33mFeatherCheck[39m[33m,[39m[0m
+
+Import map: aliased to relative './app/ui/components/CodePenEmbed' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/upload/page.tsx [Client Component Browser]
+    ./app/upload/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/upload/page.tsx [Client Component SSR]
+    ./app/upload/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./app/upload/page.tsx:8:1
+Module not found: Can't resolve '@/ui/components/CodePenEmbed'
+[0m [90m  6 |[39m [36mimport[39m { [33mLinkButton[39m } [36mfrom[39m [32m"@/ui/components/LinkButton"[39m[33m;[39m
+ [90m  7 |[39m [36mimport[39m { [33mTextField[39m } [36mfrom[39m [32m"@/ui/components/TextField"[39m[33m;[39m
+[31m[1m>[22m[39m[90m  8 |[39m [36mimport[39m { [33mCodePenEmbed[39m } [36mfrom[39m [32m"@/ui/components/CodePenEmbed"[39m[33m;[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m  9 |[39m [36mimport[39m {
+ [90m 10 |[39m   [33mFeatherArrowLeft[39m[33m,[39m
+ [90m 11 |[39m   [33mFeatherCheck[39m[33m,[39m[0m
+
+Import map: aliased to relative './app/ui/components/CodePenEmbed' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/upload/page.tsx [Client Component Browser]
+    ./app/upload/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/upload/page.tsx [Client Component SSR]
+    ./app/upload/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./app/upload/page.tsx:8:1
+Module not found: Can't resolve '@/ui/components/CodePenEmbed'
+[0m [90m  6 |[39m [36mimport[39m { [33mLinkButton[39m } [36mfrom[39m [32m"@/ui/components/LinkButton"[39m[33m;[39m
+ [90m  7 |[39m [36mimport[39m { [33mTextField[39m } [36mfrom[39m [32m"@/ui/components/TextField"[39m[33m;[39m
+[31m[1m>[22m[39m[90m  8 |[39m [36mimport[39m { [33mCodePenEmbed[39m } [36mfrom[39m [32m"@/ui/components/CodePenEmbed"[39m[33m;[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m  9 |[39m [36mimport[39m {
+ [90m 10 |[39m   [33mFeatherArrowLeft[39m[33m,[39m
+ [90m 11 |[39m   [33mFeatherCheck[39m[33m,[39m[0m
+
+Import map: aliased to relative './app/ui/components/CodePenEmbed' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/upload/page.tsx [Client Component Browser]
+    ./app/upload/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/upload/page.tsx [Client Component SSR]
+    ./app/upload/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./app/upload/page.tsx:8:1
+Module not found: Can't resolve '@/ui/components/CodePenEmbed'
+[0m [90m  6 |[39m [36mimport[39m { [33mLinkButton[39m } [36mfrom[39m [32m"@/ui/components/LinkButton"[39m[33m;[39m
+ [90m  7 |[39m [36mimport[39m { [33mTextField[39m } [36mfrom[39m [32m"@/ui/components/TextField"[39m[33m;[39m
+[31m[1m>[22m[39m[90m  8 |[39m [36mimport[39m { [33mCodePenEmbed[39m } [36mfrom[39m [32m"@/ui/components/CodePenEmbed"[39m[33m;[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m  9 |[39m [36mimport[39m {
+ [90m 10 |[39m   [33mFeatherArrowLeft[39m[33m,[39m
+ [90m 11 |[39m   [33mFeatherCheck[39m[33m,[39m[0m
+
+Import map: aliased to relative './app/ui/components/CodePenEmbed' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/upload/page.tsx [Client Component Browser]
+    ./app/upload/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/upload/page.tsx [Client Component SSR]
+    ./app/upload/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ✓ Compiled in 75ms
+ ✓ Compiled in 62ms
+ GET /my-submissions 200 in 156ms (compile: 119ms, render: 37ms)
+ ✓ Compiled in 80ms
+ ✓ Compiled in 73ms
+ ✓ Compiled in 82ms
+ GET /upload 200 in 157ms (compile: 65ms, render: 92ms)
+ GET /challenge-hub 200 in 70ms (compile: 4ms, render: 67ms)
+ GET /sprint-control 200 in 43ms (compile: 4ms, render: 39ms)
+ GET /challenge-hub 200 in 170ms (compile: 27ms, render: 143ms)

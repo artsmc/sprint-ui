@@ -5,6 +5,7 @@ import { Button } from "@/ui/components/Button";
 import { IconWithBackground } from "@/ui/components/IconWithBackground";
 import { LinkButton } from "@/ui/components/LinkButton";
 import { TextField } from "@/ui/components/TextField";
+import { CodePenEmbed } from "@/ui/components/CodePenEmbed";
 import {
   FeatherArrowLeft,
   FeatherCheck,
@@ -33,6 +34,7 @@ interface SkillOption {
 
 function DesignUploadFlow() {
   const [figmaUrl, setFigmaUrl] = useState("");
+  const [codepenUrl, setCodepenUrl] = useState("");
   const [submissionTitle, setSubmissionTitle] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [mainProblem, setMainProblem] = useState("");
@@ -137,6 +139,25 @@ function DesignUploadFlow() {
                   }}
                 />
               </TextField>
+              <TextField
+                className="h-auto w-full flex-none"
+                label="CodePen URL (Optional)"
+                helpText="Link to your interactive CodePen prototype"
+                icon={<FeatherLink />}
+              >
+                <TextField.Input
+                  placeholder="https://codepen.io/..."
+                  value={codepenUrl}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setCodepenUrl(event.target.value);
+                  }}
+                />
+              </TextField>
+              {codepenUrl && (
+                <div className="w-full">
+                  <CodePenEmbed url={codepenUrl} height={300} />
+                </div>
+              )}
               <div className="flex w-full items-start gap-2 rounded-md bg-neutral-100 px-4 py-3">
                 <FeatherInfo className="text-body font-body text-subtext-color" />
                 <span className="text-caption font-caption text-subtext-color">

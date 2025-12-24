@@ -7,6 +7,7 @@ import { Breadcrumbs } from "@/ui/components/Breadcrumbs";
 import { Button } from "@/ui/components/Button";
 import { IconWithBackground } from "@/ui/components/IconWithBackground";
 import { TextField } from "@/ui/components/TextField";
+import { CodePenEmbed } from "@/ui/components/CodePenEmbed";
 import {
   FeatherAward,
   FeatherCheck,
@@ -25,6 +26,8 @@ import {
 
 function DesignJourneyTracker() {
   const [searchQuery, setSearchQuery] = useState("");
+  // Example submission data - in real app this would come from API
+  const exampleCodePenUrl = ""; // Set to a CodePen URL to test display
 
   return (
     <div className="container max-w-none flex h-full w-full flex-col items-start gap-6 bg-default-background py-12 overflow-auto">
@@ -426,6 +429,17 @@ function DesignJourneyTracker() {
                 >
                   Open in Figma
                 </Button>
+                {exampleCodePenUrl && (
+                  <Button
+                    variant="neutral-secondary"
+                    icon={<FeatherExternalLink />}
+                    onClick={() => {
+                      window.open(exampleCodePenUrl, "_blank");
+                    }}
+                  >
+                    Open in CodePen
+                  </Button>
+                )}
                 <Button
                   variant="neutral-secondary"
                   icon={<FeatherDownload />}
@@ -442,6 +456,14 @@ function DesignJourneyTracker() {
                 alt="Analytics Chart full design"
               />
             </div>
+            {exampleCodePenUrl && (
+              <div className="flex w-full flex-col items-start gap-3">
+                <span className="text-heading-3 font-heading-3 text-default-font">
+                  Interactive Prototype
+                </span>
+                <CodePenEmbed url={exampleCodePenUrl} height={500} showPreview={true} />
+              </div>
+            )}
           </div>
           <div className="flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6 shadow-sm">
             <span className="text-heading-3 font-heading-3 text-default-font">

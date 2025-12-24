@@ -280,6 +280,11 @@
           "required": false
         },
         {
+          "name": "codepen_url",
+          "type": "url",
+          "required": false
+        },
+        {
           "name": "status",
           "type": "select",
           "required": true,

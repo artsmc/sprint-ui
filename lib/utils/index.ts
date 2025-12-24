@@ -48,3 +48,11 @@ export {
   getUserStreaks,
   type UserStreaks,
 } from './streak-calculations';
+
+export {
+  isValidCodePenUrl,
+  fetchCodePenOEmbed,
+  getCodePenEmbedHtml,
+  getCodePenThumbnail,
+  type CodePenOEmbedResponse,
+} from './codepen-oembed';
