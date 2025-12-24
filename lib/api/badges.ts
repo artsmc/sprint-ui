@@ -188,11 +188,22 @@ export async function getUserBadgesWithDetails(
     throw new Error('User ID required or must be authenticated');
   }
 
-  return pb.collection(Collections.USER_BADGES).getFullList<UserBadgeWithRelations>({
-    filter: filterEquals('user_id', targetUserId),
-    expand: 'badge_id,sprint_id',
-    sort: '-awarded_at',
-  });
+  try {
+    return await pb.collection(Collections.USER_BADGES).getFullList<UserBadgeWithRelations>({
+      filter: filterEquals('user_id', targetUserId),
+      expand: 'badge_id,sprint_id',
+      sort: '-awarded_at',
+      requestKey: null, // Disable auto-cancellation for this query
+    });
+  } catch (error) {
+    // Handle auto-cancellation errors gracefully (don't log them)
+    if (error && typeof error === 'object' && 'isAbort' in error) {
+      return [];
+    }
+    // Return empty array if no badges found or if there's an error
+    console.error('Error fetching user badges:', error);
+    return [];
+  }
 }
 
 /**

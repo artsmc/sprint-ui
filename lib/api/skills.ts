@@ -237,13 +237,24 @@ export async function getUserSkillProgress(
     throw new Error('User ID required or must be authenticated');
   }
 
-  return pb
-    .collection(Collections.USER_SKILL_PROGRESS)
-    .getFullList<UserSkillProgressWithSkill>({
-      filter: filterEquals('user_id', targetUserId),
-      expand: 'skill_id',
-      sort: '-xp',
-    });
+  try {
+    return await pb
+      .collection(Collections.USER_SKILL_PROGRESS)
+      .getFullList<UserSkillProgressWithSkill>({
+        filter: filterEquals('user_id', targetUserId),
+        expand: 'skill_id',
+        sort: '-xp',
+        requestKey: null, // Disable auto-cancellation for this query
+      });
+  } catch (error) {
+    // Handle auto-cancellation errors gracefully (don't log them)
+    if (error && typeof error === 'object' && 'isAbort' in error) {
+      return [];
+    }
+    // Return empty array if no skill progress found or if there's an error
+    console.error('Error fetching user skill progress:', error);
+    return [];
+  }
 }
 
 /**

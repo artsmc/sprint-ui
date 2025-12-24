@@ -15,3 +15,6 @@ export type { ChallengePreviewProps } from './start-next-sprint/challenge-previe
 
 export { SprintConfiguration } from './start-next-sprint/sprint-configuration';
 export type { SprintConfigurationProps } from './start-next-sprint/sprint-configuration';
+
+export { SprintHistory } from './sprint-history';
+export type { SprintHistoryProps } from './sprint-history';

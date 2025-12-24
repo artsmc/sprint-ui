@@ -43,10 +43,10 @@ export const CreateSprintSchema = z.object({
     .max(100, 'Name must be at most 100 characters'),
   challenge_id: z.string().min(1, 'Challenge ID is required'),
   status: SprintStatusEnum.default('scheduled'),
-  start_at: z.string().datetime().nullable().optional(),
-  end_at: z.string().datetime().nullable().optional(),
-  voting_end_at: z.string().datetime().nullable().optional(),
-  retro_day: z.string().date().nullable().optional(),
+  start_at: z.string().datetime().nullish(),
+  end_at: z.string().datetime().nullish(),
+  voting_end_at: z.string().datetime().nullish(),
+  retro_day: z.string().date().nullish(),
   duration_days: z
     .number()
     .int()
@@ -78,10 +78,10 @@ export const UpdateSprintSchema = z.object({
     .optional(),
   challenge_id: z.string().min(1, 'Challenge ID cannot be empty').optional(),
   status: SprintStatusEnum.optional(),
-  start_at: z.string().datetime().nullable().optional(),
-  end_at: z.string().datetime().nullable().optional(),
-  voting_end_at: z.string().datetime().nullable().optional(),
-  retro_day: z.string().date().nullable().optional(),
+  start_at: z.string().datetime().nullish(),
+  end_at: z.string().datetime().nullish(),
+  voting_end_at: z.string().datetime().nullish(),
+  retro_day: z.string().date().nullish(),
   duration_days: z
     .number()
     .int()

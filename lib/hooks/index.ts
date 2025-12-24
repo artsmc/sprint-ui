@@ -87,3 +87,14 @@ export type {
   UseStartSprintOptions,
   StartSprintError,
 } from './use-start-sprint';
+
+// Sprint history hook
+export {
+  useSprintHistory,
+  sprintHistoryKeys,
+} from './use-sprint-history';
+export type {
+  UseSprintHistoryResult,
+  UseSprintHistoryOptions,
+  SprintHistoryError,
+} from './use-sprint-history';

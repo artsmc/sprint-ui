@@ -84,6 +84,7 @@ export async function calculateSprintStreak(userId: string): Promise<number> {
         filter: filterEquals('user_id', userId),
         expand: 'sprint_id',
         sort: '-created',
+        requestKey: null, // Disable auto-cancellation
       });
 
     if (participations.length === 0) {
@@ -96,6 +97,7 @@ export async function calculateSprintStreak(userId: string): Promise<number> {
       .getFullList<Sprint>({
         filter: "status = 'completed' || status = 'active' || status = 'voting' || status = 'retro'",
         sort: '-sprint_number',
+        requestKey: null, // Disable auto-cancellation
       });
 
     if (completedSprints.length === 0) {
@@ -118,7 +120,11 @@ export async function calculateSprintStreak(userId: string): Promise<number> {
     }
 
     return streak;
-  } catch {
+  } catch (error) {
+    // Handle auto-cancellation errors gracefully
+    if (error && typeof error === 'object' && 'isAbort' in error) {
+      return 0;
+    }
     return 0;
   }
 }
@@ -140,6 +146,7 @@ export async function calculateFeedbackStreak(userId: string): Promise<number> {
       .getFullList({
         filter: filterEquals('author_id', userId),
         sort: '-created',
+        requestKey: null, // Disable auto-cancellation
       });
 
     if (feedbackRecords.length === 0) {
@@ -157,6 +164,7 @@ export async function calculateFeedbackStreak(userId: string): Promise<number> {
       .getFullList<Sprint>({
         filter: "status = 'completed' || status = 'active' || status = 'voting' || status = 'retro'",
         sort: '-sprint_number',
+        requestKey: null, // Disable auto-cancellation
       });
 
     if (completedSprints.length === 0) {
@@ -174,7 +182,11 @@ export async function calculateFeedbackStreak(userId: string): Promise<number> {
     }
 
     return streak;
-  } catch {
+  } catch (error) {
+    // Handle auto-cancellation errors gracefully
+    if (error && typeof error === 'object' && 'isAbort' in error) {
+      return 0;
+    }
     return 0;
   }
 }
@@ -221,7 +233,7 @@ export async function getUserProfileSidebarData(
 ): Promise<UserProfileSidebarData> {
   // Phase 1: Parallel fetch for independent data
   const [user, xpTotal, badges, streaks, activeSprint] = await Promise.all([
-    pb.collection(Collections.USERS).getOne<User>(userId),
+    pb.collection(Collections.USERS).getOne<User>(userId, { requestKey: null }),
     getUserXPTotal(userId),
     getUserBadgesWithDetails(userId),
     getUserStreaks(userId),
@@ -239,11 +251,16 @@ export async function getUserProfileSidebarData(
         .collection(Collections.SPRINTS)
         .getFirstListItem<Sprint>("status='completed'", {
           sort: '-sprint_number',
+          requestKey: null, // Disable auto-cancellation
         });
       if (lastSprint) {
         sprintAwards = await getSprintAwardsWithDetails(lastSprint.id);
       }
-    } catch {
+    } catch (error) {
+      // Handle auto-cancellation errors gracefully
+      if (error && typeof error === 'object' && 'isAbort' in error) {
+        // No action needed
+      }
       // No completed sprints
     }
   }

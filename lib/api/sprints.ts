@@ -910,3 +910,34 @@ export async function validateSprintDates(
     valid: true,
   };
 }
+
+/**
+ * Get sprint history with expanded relations (challenge, started_by, ended_by users).
+ * Returns sprints sorted by sprint number (newest first).
+ *
+ * @param page - Page number (1-indexed), defaults to 1
+ * @param perPage - Number of items per page, defaults to 20
+ * @param statusFilter - Optional status filter (e.g., 'completed', 'cancelled')
+ * @returns Paginated list of sprints with expanded relations
+ *
+ * @example
+ * // Get first page of all sprints
+ * const history = await getSprintHistory();
+ *
+ * @example
+ * // Get completed sprints only
+ * const history = await getSprintHistory(1, 20, 'completed');
+ */
+export async function getSprintHistory(
+  page: number = 1,
+  perPage: number = 20,
+  statusFilter?: SprintStatus
+): Promise<ListResult<SprintWithRelations>> {
+  const filter = statusFilter ? `status='${statusFilter}'` : undefined;
+
+  return pb.collection(Collections.SPRINTS).getList<SprintWithRelations>(page, perPage, {
+    filter,
+    sort: '-sprint_number',
+    expand: 'challenge_id,started_by_id,ended_by_id',
+  });
+}

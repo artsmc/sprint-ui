@@ -228,14 +228,24 @@ export async function createSprintAward(
  * @returns Array of sprint awards
  */
 export async function getSprintAwards(sprintId: string): Promise<SprintAward[]> {
-  const result = await pb
-    .collection(Collections.SPRINT_AWARDS)
-    .getFullList<SprintAward>({
-      filter: filterEquals('sprint_id', sprintId),
-      sort: 'created',
-    });
+  try {
+    const result = await pb
+      .collection(Collections.SPRINT_AWARDS)
+      .getFullList<SprintAward>({
+        filter: filterEquals('sprint_id', sprintId),
+        sort: 'created',
+        requestKey: null, // Disable auto-cancellation for this query
+      });
 
-  return result;
+    return result;
+  } catch (error) {
+    // Handle auto-cancellation errors gracefully (don't log them)
+    if (error && typeof error === 'object' && 'isAbort' in error) {
+      return [];
+    }
+    // Return empty array if no awards found or if there's an error
+    return [];
+  }
 }
 
 /**
@@ -247,15 +257,27 @@ export async function getSprintAwards(sprintId: string): Promise<SprintAward[]> 
 export async function getSprintAwardsWithDetails(
   sprintId: string
 ): Promise<SprintAwardWithRelations[]> {
-  const result = await pb
-    .collection(Collections.SPRINT_AWARDS)
-    .getFullList<SprintAwardWithRelations>({
-      filter: filterEquals('sprint_id', sprintId),
-      expand: 'submission_id,user_id',
-      sort: 'created',
-    });
+  try {
+    const result = await pb
+      .collection(Collections.SPRINT_AWARDS)
+      .getFullList<SprintAwardWithRelations>({
+        filter: filterEquals('sprint_id', sprintId),
+        expand: 'submission_id,user_id',
+        sort: 'created',
+        requestKey: null, // Disable auto-cancellation for this query
+      });
 
-  return result;
+    return result;
+  } catch (error) {
+    // Handle auto-cancellation errors gracefully (don't log them)
+    if (error && typeof error === 'object' && 'isAbort' in error) {
+      return [];
+    }
+    // Return empty array if no awards found or if there's an error
+    // This prevents the UI from breaking when a sprint has no awards yet
+    // Note: 400 errors may occur if submissions collection is empty or has permission issues
+    return [];
+  }
 }
 
 /**

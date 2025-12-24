@@ -11,6 +11,7 @@
 'use client';
 
 import { useChallengeHub } from '@/lib/hooks';
+import { useJoinSprint } from '@/lib/hooks/use-join-sprint';
 import { ActiveChallengeCard } from './active-challenge-card';
 import { SprintProgressTracker } from './sprint-progress-tracker';
 import { SkillGrowthSection } from './skill-growth-section';
@@ -244,6 +245,7 @@ interface NotParticipatingStateProps {
   challengeTitle: string;
   className?: string;
   onJoin?: () => void;
+  isJoining?: boolean;
 }
 
 function NotParticipatingState({
@@ -251,6 +253,7 @@ function NotParticipatingState({
   challengeTitle,
   className,
   onJoin,
+  isJoining = false,
 }: NotParticipatingStateProps) {
   return (
     <div
@@ -286,9 +289,10 @@ function NotParticipatingState({
       {onJoin && (
         <button
           onClick={onJoin}
-          className="mt-4 rounded-lg bg-brand-600 px-6 py-2.5 text-body-bold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          disabled={isJoining}
+          className="mt-4 rounded-lg bg-brand-600 px-6 py-2.5 text-body-bold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Join Sprint
+          {isJoining ? 'Joining...' : 'Join Sprint'}
         </button>
       )}
     </div>
@@ -317,6 +321,17 @@ export function ChallengeHubMain({ userId, className }: ChallengeHubMainProps) {
   const { data, isLoading, isError, error, refetch } = useChallengeHub({
     userId,
   });
+
+  const { joinSprint, isJoining } = useJoinSprint();
+
+  // Handler for joining the sprint
+  const handleJoinSprint = async () => {
+    if (data?.activeSprint?.id) {
+      await joinSprint(data.activeSprint.id);
+      // Refetch challenge hub data to update participation status
+      await refetch();
+    }
+  };
 
   // Not logged in state
   if (!userId) {
@@ -351,8 +366,8 @@ export function ChallengeHubMain({ userId, className }: ChallengeHubMainProps) {
         sprintNumber={data.activeSprint.sprint_number}
         challengeTitle={data.challenge?.title || 'Current Challenge'}
         className={className}
-        // TODO: Implement join sprint functionality
-        onJoin={undefined}
+        onJoin={handleJoinSprint}
+        isJoining={isJoining}
       />
     );
   }

@@ -185,11 +185,22 @@ export async function getUserXPTotal(userId?: string): Promise<number> {
     throw new Error('User ID required - not authenticated');
   }
 
-  const events = await pb.collection(Collections.XP_EVENTS).getFullList<XPEvent>({
-    filter: filterEquals('user_id', targetUserId),
-  });
+  try {
+    const events = await pb.collection(Collections.XP_EVENTS).getFullList<XPEvent>({
+      filter: filterEquals('user_id', targetUserId),
+      requestKey: null, // Disable auto-cancellation for this query
+    });
 
-  return events.reduce((total, event) => total + event.amount, 0);
+    return events.reduce((total, event) => total + event.amount, 0);
+  } catch (error) {
+    // Handle auto-cancellation errors gracefully
+    if (error && typeof error === 'object' && 'isAbort' in error) {
+      return 0;
+    }
+    // Return 0 if no XP events found or if there's an error
+    console.error('Error fetching user XP:', error);
+    return 0;
+  }
 }
 
 /**

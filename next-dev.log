@@ -1,0 +1,249 @@
+
+> sprint-ui@0.1.0 dev
+> next dev
+
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+   ▲ Next.js 16.0.4 (Turbopack)
+   - Local:         http://localhost:3000
+   - Network:       http://10.255.255.254:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 787ms
+ GET / 200 in 2.8s (compile: 2.6s, render: 140ms)
+ GET / 200 in 85ms (compile: 7ms, render: 78ms)
+ GET /login 200 in 954ms (compile: 777ms, render: 176ms)
+ GET / 200 in 53ms (compile: 7ms, render: 46ms)
+ GET / 200 in 145ms (compile: 101ms, render: 44ms)
+ ✓ Compiled in 5ms
+ GET /login 200 in 56ms (compile: 10ms, render: 46ms)
+ GET /register 200 in 419ms (compile: 386ms, render: 33ms)
+ GET /challenge-hub 200 in 1076ms (compile: 1001ms, render: 76ms)
+ GET /sprint-control 200 in 1752ms (compile: 1538ms, render: 214ms)
+ GET /sprint-control 200 in 63ms (compile: 6ms, render: 57ms)
+Current user ID: r07seixvw2kms8e
+Auth store: LocalAuthStore {
+  baseToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3NjcxNjIwOTksImlkIjoicjA3c2VpeHZ3MmttczhlIiwicmVmcmVzaGFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.4MEBZkNIIsL0yxu-CDo4qy9k8qvncOXpP4oXNCi9Qxo',
+  baseModel: {
+    avatar: '',
+    collectionId: '_pb_users_auth_',
+    collectionName: 'users',
+    created: '2025-12-24 06:14:56.160Z',
+    email: 'artsmc88@gmail.com',
+    emailVisibility: true,
+    id: 'r07seixvw2kms8e',
+    name: 'mark campbell',
+    updated: '2025-12-24 06:14:56.160Z',
+    verified: false
+  },
+  _onChangeCallbacks: [],
+  storageFallback: {
+    pocketbase_auth: {
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3NjcxNjIwOTksImlkIjoicjA3c2VpeHZ3MmttczhlIiwicmVmcmVzaGFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.4MEBZkNIIsL0yxu-CDo4qy9k8qvncOXpP4oXNCi9Qxo',
+      record: [Object]
+    }
+  },
+  storageKey: 'pocketbase_auth'
+}
+Creating sprint with data: {
+  sprint_number: 1,
+  name: 'Sprint 1',
+  challenge_id: 'ps5lkvcvq9kfdx7',
+  status: 'active',
+  duration_days: 14,
+  start_at: '2025-12-24T06:21:38.005Z',
+  end_at: '2026-01-07T06:21:38.005Z',
+  retro_day: '2025-12-28',
+  started_by_id: 'r07seixvw2kms8e'
+}
+Attempting to create sprint in collection: sprints
+Failed to create sprint: ClientResponseError 400: Failed to create record.
+    at async createSprint (lib/api/sprints.ts:288:20)
+    at async POST (app/api/v1/sprints/route.ts:250:20)
+  286 |     console.log('Attempting to create sprint in collection:', Collections.SPRINTS);
+  287 |
+> 288 |     const result = await pb.collection(Collections.SPRINTS).create<Sprint>(sprintData);
+      |                    ^
+  289 |     console.log('Sprint created successfully:', result);
+  290 |     return result;
+  291 |   } catch (error) { {
+  url: 'http://localhost:8090/api/collections/sprints/records',
+  status: 400,
+  response: [Object],
+  isAbort: false,
+  originalError: [Object],
+  [cause]: [Object]
+}
+Sprint data: {
+  sprint_number: 1,
+  name: 'Sprint 1',
+  challenge_id: 'ps5lkvcvq9kfdx7',
+  status: 'active',
+  start_at: '2025-12-24T06:21:38.005Z',
+  end_at: '2026-01-07T06:21:38.005Z',
+  voting_end_at: undefined,
+  retro_day: '2025-12-28',
+  duration_days: 14
+}
+PocketBase error details: { data: {}, message: 'Failed to create record.', status: 400 }
+ POST /api/v1/sprints 500 in 682ms (compile: 466ms, render: 216ms)
+Current user ID: r07seixvw2kms8e
+Auth store: LocalAuthStore {
+  baseToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3NjcxNjIxMDAsImlkIjoicjA3c2VpeHZ3MmttczhlIiwicmVmcmVzaGFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.vsfN_HzKY75lWnPnr3vBW2I-OnGa8ufxoaHZUqp8SC0',
+  baseModel: {
+    avatar: '',
+    collectionId: '_pb_users_auth_',
+    collectionName: 'users',
+    created: '2025-12-24 06:14:56.160Z',
+    email: 'artsmc88@gmail.com',
+    emailVisibility: true,
+    id: 'r07seixvw2kms8e',
+    name: 'mark campbell',
+    updated: '2025-12-24 06:14:56.160Z',
+    verified: false
+  },
+  _onChangeCallbacks: [],
+  storageFallback: {
+    pocketbase_auth: {
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3NjcxNjIxMDAsImlkIjoicjA3c2VpeHZ3MmttczhlIiwicmVmcmVzaGFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.vsfN_HzKY75lWnPnr3vBW2I-OnGa8ufxoaHZUqp8SC0',
+      record: [Object]
+    }
+  },
+  storageKey: 'pocketbase_auth'
+}
+Creating sprint with data: {
+  sprint_number: 1,
+  name: 'Sprint 1',
+  challenge_id: 'ps5lkvcvq9kfdx7',
+  status: 'active',
+  duration_days: 14,
+  start_at: '2025-12-24T06:21:38.005Z',
+  end_at: '2026-01-07T06:21:38.005Z',
+  retro_day: '2025-12-28',
+  started_by_id: 'r07seixvw2kms8e'
+}
+Attempting to create sprint in collection: sprints
+Failed to create sprint: ClientResponseError 400: Failed to create record.
+    at async createSprint (lib/api/sprints.ts:288:20)
+    at async POST (app/api/v1/sprints/route.ts:250:20)
+  286 |     console.log('Attempting to create sprint in collection:', Collections.SPRINTS);
+  287 |
+> 288 |     const result = await pb.collection(Collections.SPRINTS).create<Sprint>(sprintData);
+      |                    ^
+  289 |     console.log('Sprint created successfully:', result);
+  290 |     return result;
+  291 |   } catch (error) { {
+  url: 'http://localhost:8090/api/collections/sprints/records',
+  status: 400,
+  response: [Object],
+  isAbort: false,
+  originalError: [Object],
+  [cause]: [Object]
+}
+Sprint data: {
+  sprint_number: 1,
+  name: 'Sprint 1',
+  challenge_id: 'ps5lkvcvq9kfdx7',
+  status: 'active',
+  start_at: '2025-12-24T06:21:38.005Z',
+  end_at: '2026-01-07T06:21:38.005Z',
+  voting_end_at: undefined,
+  retro_day: '2025-12-28',
+  duration_days: 14
+}
+PocketBase error details: { data: {}, message: 'Failed to create record.', status: 400 }
+ POST /api/v1/sprints 500 in 81ms (compile: 2ms, render: 79ms)
+ ✓ Compiled in 75ms
+ ✓ Compiled in 91ms
+ ✓ Compiled in 92ms
+ ✓ Compiled in 134ms
+ ✓ Compiled in 62ms
+Current user ID: r07seixvw2kms8e
+Auth store: LocalAuthStore {
+  baseToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3NjcxNjMwMTcsImlkIjoicjA3c2VpeHZ3MmttczhlIiwicmVmcmVzaGFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.Pq1YhptfkOp2lLYme8B7mZfYiNtqKxPDcTQZNQwQiV4',
+  baseModel: {
+    avatar: '',
+    collectionId: '_pb_users_auth_',
+    collectionName: 'users',
+    created: '2025-12-24 06:14:56.160Z',
+    email: 'artsmc88@gmail.com',
+    emailVisibility: true,
+    id: 'r07seixvw2kms8e',
+    name: 'mark campbell',
+    updated: '2025-12-24 06:14:56.160Z',
+    verified: false
+  },
+  _onChangeCallbacks: [],
+  storageFallback: {
+    pocketbase_auth: {
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3NjcxNjMwMTcsImlkIjoicjA3c2VpeHZ3MmttczhlIiwicmVmcmVzaGFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.Pq1YhptfkOp2lLYme8B7mZfYiNtqKxPDcTQZNQwQiV4',
+      record: [Object]
+    }
+  },
+  storageKey: 'pocketbase_auth'
+}
+Creating sprint with data: {
+  sprint_number: 1,
+  name: 'Sprint 1',
+  challenge_id: 'ps5lkvcvq9kfdx7',
+  status: 'active',
+  duration_days: 14,
+  start_at: '2025-12-24T06:36:56.477Z',
+  end_at: '2026-01-07T06:36:56.477Z',
+  retro_day: '2025-12-28',
+  started_by_id: 'r07seixvw2kms8e'
+}
+Attempting to create sprint in collection: sprints
+Sprint created successfully: {
+  challenge_id: 'ps5lkvcvq9kfdx7',
+  collectionId: 'pbc_3753318043',
+  collectionName: 'sprints',
+  duration_days: 14,
+  end_at: '2026-01-07 06:36:56.477Z',
+  ended_by_id: '',
+  id: 'l1hyzx9qwomvcdz',
+  name: 'Sprint 1',
+  retro_day: '2025-12-28 00:00:00.000Z',
+  sprint_number: 1,
+  start_at: '2025-12-24 06:36:56.477Z',
+  started_by_id: 'r07seixvw2kms8e',
+  status: 'active',
+  voting_end_at: ''
+}
+ POST /api/v1/sprints 201 in 195ms (compile: 148ms, render: 47ms)
+ GET /challenge-hub 200 in 339ms (compile: 245ms, render: 94ms)
+ GET /challenge-hub 200 in 333ms (compile: 4ms, render: 329ms)
+ GET /sprint-control 200 in 325ms (compile: 77ms, render: 248ms)
+ GET /challenge-hub 200 in 95ms (compile: 4ms, render: 91ms)
+ GET /challenge-hub 200 in 205ms (compile: 121ms, render: 84ms)
+ GET /challenge-hub 200 in 39ms (compile: 3ms, render: 36ms)
+ GET /challenge-hub 200 in 55ms (compile: 3ms, render: 52ms)
+ GET /challenge-hub 200 in 54ms (compile: 6ms, render: 48ms)
+ GET /challenge-hub 200 in 32ms (compile: 3ms, render: 30ms)
+ ✓ Compiled in 354ms
+ GET /challenge-hub 200 in 270ms (compile: 211ms, render: 59ms)
+ GET /challenge-hub 200 in 337ms (compile: 4ms, render: 333ms)
+ ✓ Compiled in 55ms
+ GET /challenge-hub 200 in 343ms (compile: 112ms, render: 231ms)
+ ✓ Compiled in 59ms
+ ✓ Compiled in 52ms
+ GET /challenge-hub 200 in 250ms (compile: 88ms, render: 162ms)
+ ✓ Compiled in 50ms
+ ✓ Compiled in 63ms
+ ✓ Compiled in 51ms
+ GET /my-submissions 200 in 551ms (compile: 466ms, render: 85ms)
+ GET /upload 200 in 414ms (compile: 350ms, render: 64ms)
+ GET /challenge-hub 200 in 242ms (compile: 85ms, render: 158ms)
+ ✓ Compiled in 62ms
+ ✓ Compiled in 59ms
+ ✓ Compiled in 47ms
+ ✓ Compiled in 52ms
+ ✓ Compiled in 61ms
+ ✓ Compiled in 54ms
+ ✓ Compiled in 51ms
+ ✓ Compiled in 55ms
+ ✓ Compiled in 47ms
+ ✓ Compiled in 62ms
+ ✓ Compiled in 53ms
+ ✓ Compiled in 98ms
+ ✓ Compiled in 70ms
